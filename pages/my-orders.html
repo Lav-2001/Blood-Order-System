@@ -1,0 +1,869 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Orders</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Google Font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f8f9fa;
+            color: #333;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: #fff;
+            border-right: 1px solid #eee;
+            padding: 20px 15px;
+            z-index: 1000;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 10px 25px;
+        }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            background: #fff0f1;
+            color: #d71920;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .brand h4 {
+            margin: 0;
+            font-weight: 700;
+            color: #d71920;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #555;
+            padding: 12px 14px;
+            margin-bottom: 5px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-link i {
+            font-size: 18px;
+        }
+
+        .nav-link:hover {
+            background: #fff0f1;
+            color: #d71920;
+        }
+
+        .nav-link.active {
+            background: #d71920;
+            color: white;
+        }
+
+        .logout {
+            position: absolute;
+            bottom: 20px;
+            left: 15px;
+            right: 15px;
+        }
+
+        .logout a {
+            color: #dc3545;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 250px;
+            min-height: 100vh;
+        }
+
+        /* ================= TOPBAR ================= */
+
+        .topbar {
+            height: 75px;
+            background: white;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+        }
+
+        .page-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #fff0f1;
+            color: #d71920;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-info strong {
+            display: block;
+            font-size: 14px;
+        }
+
+        .profile-info small {
+            color: #888;
+            font-size: 12px;
+        }
+
+        /* ================= CONTENT ================= */
+
+        .content {
+            padding: 30px;
+        }
+
+        .welcome-text h3 {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .welcome-text p {
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        /* ================= ORDER CARD ================= */
+
+        .order-card {
+            background: white;
+            border-radius: 15px;
+            border: 1px solid #eee;
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: 0.2s;
+        }
+
+        .order-card:hover {
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+
+        .order-header {
+            padding: 18px 22px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .order-id {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .order-date {
+            font-size: 12px;
+            color: #888;
+            margin-top: 3px;
+        }
+
+        /* ================= STATUS ================= */
+
+        .status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-approved {
+            background: #e7f7ed;
+            color: #198754;
+        }
+
+        .status-pending {
+            background: #fff4d6;
+            color: #997404;
+        }
+
+        .status-completed {
+            background: #e7f1ff;
+            color: #0d6efd;
+        }
+
+        .status-cancelled {
+            background: #fde8e8;
+            color: #dc3545;
+        }
+
+        /* ================= ORDER BODY ================= */
+
+        .order-body {
+            padding: 20px 22px;
+        }
+
+        .order-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .order-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .order-item-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            background: #fff0f1;
+            color: #d71920;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .order-item small {
+            color: #888;
+            display: block;
+            font-size: 11px;
+        }
+
+        .order-item strong {
+            font-size: 13px;
+        }
+
+        .blood-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: #d71920;
+            color: white;
+            border-radius: 50%;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* ================= ACTIONS ================= */
+
+        .order-footer {
+            padding: 15px 22px;
+            background: #fafafa;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn-view {
+            border: 1px solid #d71920;
+            color: #d71920;
+            background: white;
+        }
+
+        .btn-view:hover {
+            background: #d71920;
+            color: white;
+        }
+
+        .btn-cancel {
+            border: 1px solid #dc3545;
+            color: #dc3545;
+            background: white;
+        }
+
+        .btn-cancel:hover {
+            background: #dc3545;
+            color: white;
+        }
+
+        /* ================= EMPTY ================= */
+
+        .empty-orders {
+            background: white;
+            border-radius: 15px;
+            border: 1px solid #eee;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .empty-orders i {
+            font-size: 55px;
+            color: #ddd;
+        }
+
+        .empty-orders h5 {
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        .empty-orders p {
+            color: #888;
+        }
+
+        .btn-order {
+            background: #d71920;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
+
+        .btn-order:hover {
+            background: #a80e14;
+            color: white;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 768px) {
+
+            .sidebar {
+                width: 70px;
+                padding: 20px 10px;
+            }
+
+            .brand h4,
+            .nav-link span {
+                display: none;
+            }
+
+            .brand {
+                justify-content: center;
+                padding-bottom: 25px;
+            }
+
+            .nav-link {
+                justify-content: center;
+            }
+
+            .main {
+                margin-left: 70px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .profile-info {
+                display: none;
+            }
+
+            .topbar {
+                padding: 0 20px;
+            }
+
+            .order-header {
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .order-footer {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+
+<div class="sidebar">
+
+    <div class="brand">
+        <div class="brand-icon">
+            <i class="bi bi-heart-pulse-fill"></i>
+        </div>
+        <h4>BloodConnect</h4>
+    </div>
+
+    <a href="dashboard.html" class="nav-link">
+        <i class="bi bi-grid-fill"></i>
+        <span>Dashboard</span>
+    </a>
+
+    <a href="place-order.html" class="nav-link">
+        <i class="bi bi-droplet-fill"></i>
+        <span>Place Blood Order</span>
+    </a>
+
+    <a href="my-orders.html" class="nav-link active">
+        <i class="bi bi-clipboard-check"></i>
+        <span>My Orders</span>
+    </a>
+
+    <a href="blood-banks.html" class="nav-link">
+        <i class="bi bi-hospital"></i>
+        <span>Blood Banks</span>
+    </a>
+
+    <a href="profile.html" class="nav-link">
+        <i class="bi bi-person-circle"></i>
+        <span>My Profile</span>
+    </a>
+
+    <div class="logout">
+        <a href="login.html" class="nav-link">
+            <i class="bi bi-box-arrow-right"></i>
+            <span>Logout</span>
+        </a>
+    </div>
+
+</div>
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="main">
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+        <h4 class="page-title">My Orders</h4>
+
+        <div class="profile">
+
+            <div class="profile-icon">
+                <i class="bi bi-person-fill"></i>
+            </div>
+
+            <div class="profile-info">
+                <strong>Lav Kumar</strong>
+                <small>Receiver</small>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- CONTENT -->
+
+    <div class="content">
+
+        <div class="welcome-text">
+
+            <h3>My Blood Orders</h3>
+
+            <p>
+                View and track all your blood orders from here.
+            </p>
+
+        </div>
+
+
+        <!-- ================= ORDER 1 ================= -->
+
+        <div class="order-card">
+
+            <div class="order-header">
+
+                <div>
+                    <div class="order-id">Order #BC1001</div>
+                    <div class="order-date">
+                        <i class="bi bi-calendar3"></i>
+                        September 5, 2026
+                    </div>
+                </div>
+
+                <span class="status status-approved">
+                    Approved
+                </span>
+
+            </div>
+
+
+            <div class="order-body">
+
+                <div class="row">
+
+                    <div class="col-md-2 mb-3 mb-md-0 text-center">
+
+                        <div class="blood-badge mx-auto">
+                            A+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <div class="order-item">
+
+                            <div class="order-item-icon">
+                                <i class="bi bi-droplet-fill"></i>
+                            </div>
+
+                            <div>
+                                <small>Blood Group</small>
+                                <strong>A Positive</strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <div class="order-item">
+
+                            <div class="order-item-icon">
+                                <i class="bi bi-box-seam"></i>
+                            </div>
+
+                            <div>
+                                <small>Quantity</small>
+                                <strong>2 Units</strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <div class="order-item">
+
+                            <div class="order-item-icon">
+                                <i class="bi bi-hospital"></i>
+                            </div>
+
+                            <div>
+                                <small>Blood Bank</small>
+                                <strong>Central Blood Bank</strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="order-footer">
+
+                <button
+                    class="btn btn-sm btn-view"
+                    onclick="window.location.href='order-details.html'">
+                    <i class="bi bi-eye"></i>
+                    View Details
+                </button>
+
+                <button
+                    class="btn btn-sm btn-cancel"
+                    onclick="cancelOrder('BC1001')">
+                    <i class="bi bi-x-circle"></i>
+                    Cancel
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= ORDER 2 ================= -->
+
+        <div class="order-card">
+
+            <div class="order-header">
+
+                <div>
+                    <div class="order-id">Order #BC1002</div>
+
+                    <div class="order-date">
+                        <i class="bi bi-calendar3"></i>
+                        September 3, 2026
+                    </div>
+                </div>
+
+                <span class="status status-pending">
+                    Pending
+                </span>
+
+            </div>
+
+
+            <div class="order-body">
+
+                <div class="row">
+
+                    <div class="col-md-2 mb-3 mb-md-0 text-center">
+
+                        <div class="blood-badge mx-auto">
+                            O+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <div class="order-item">
+
+                            <div class="order-item-icon">
+                                <i class="bi bi-droplet-fill"></i>
+                            </div>
+
+                            <div>
+                                <small>Blood Group</small>
+                                <strong>O Positive</strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <div class="order-item">
+
+                            <div class="order-item-icon">
+                                <i class="bi bi-box-seam"></i>
+                            </div>
+
+                            <div>
+                                <small>Quantity</small>
+                                <strong>1 Unit</strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <div class="order-item">
+
+                            <div class="order-item-icon">
+                                <i class="bi bi-hospital"></i>
+                            </div>
+
+                            <div>
+                                <small>Blood Bank</small>
+                                <strong>Kathmandu Blood Bank</strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="order-footer">
+
+                <button
+                    class="btn btn-sm btn-view"
+                    onclick="window.location.href='order-details.html'">
+                    <i class="bi bi-eye"></i>
+                    View Details
+                </button>
+
+                <button
+                    class="btn btn-sm btn-cancel"
+                    onclick="cancelOrder('BC1002')">
+                    <i class="bi bi-x-circle"></i>
+                    Cancel
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= ORDER 3 ================= -->
+
+        <div class="order-card">
+
+            <div class="order-header">
+
+                <div>
+                    <div class="order-id">Order #BC1003</div>
+
+                    <div class="order-date">
+                        <i class="bi bi-calendar3"></i>
+                        August 28, 2026
+                    </div>
+                </div>
+
+                <span class="status status-completed">
+                    Completed
+                </span>
+
+            </div>
+
+
+            <div class="order-body">
+
+                <div class="row">
+
+                    <div class="col-md-2 mb-3 mb-md-0 text-center">
+
+                        <div class="blood-badge mx-auto">
+                            B+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <div class="order-item">
+
+                            <div class="order-item-icon">
+                                <i class="bi bi-droplet-fill"></i>
+                            </div>
+
+                            <div>
+                                <small>Blood Group</small>
+                                <strong>B Positive</strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <div class="order-item">
+
+                            <div class="order-item-icon">
+                                <i class="bi bi-box-seam"></i>
+                            </div>
+
+                            <div>
+                                <small>Quantity</small>
+                                <strong>3 Units</strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <div class="order-item">
+
+                            <div class="order-item-icon">
+                                <i class="bi bi-hospital"></i>
+                            </div>
+
+                            <div>
+                                <small>Blood Bank</small>
+                                <strong>Nepal Red Cross Blood Bank</strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="order-footer">
+
+                <button
+                    class="btn btn-sm btn-view"
+                    onclick="window.location.href='order-details.html'">
+                    <i class="bi bi-eye"></i>
+                    View Details
+                </button>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+    function viewOrder(orderId) {
+
+        alert(
+            "Order Details\n\n" +
+            "Order ID: " + orderId +
+            "\n\nMore detailed information will be available here."
+        );
+
+    }
+
+
+    function cancelOrder(orderId) {
+
+        let confirmCancel = confirm(
+            "Are you sure you want to cancel " + orderId + "?"
+        );
+
+        if (confirmCancel) {
+
+            alert(
+                orderId + " has been cancelled."
+            );
+
+        }
+
+    }
+
+</script>
+
+</body>
+</html>

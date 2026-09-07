@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Blood Banks</title>
+
+<!-- Bootstrap CSS -->
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet">
+
+<!-- Bootstrap Icons -->
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<!-- Google Font -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+
+<style>
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: "Poppins", sans-serif;
+        background: #f8f9fa;
+        color: #333;
+    }
+
+
+    /* =========================
+       SIDEBAR
+    ========================== */
+
+    .sidebar {
+        width: 250px;
+        height: 100vh;
+        background: white;
+        position: fixed;
+        left: 0;
+        top: 0;
+        border-right: 1px solid #eee;
+        padding: 22px 15px;
+        z-index: 1000;
+    }
+
+
+    /* Logo */
+
+    .brand {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: #171717;
+        font-size: 21px;
+        font-weight: 800;
+        margin-bottom: 40px;
+        padding-left: 10px;
+    }
+
+    .brand span {
+        color: #d71920;
+    }
+
+    .brand-icon {
+        width: 40px;
+        height: 40px;
+        background: #fff0f1;
+        color: #d71920;
+        border-radius: 11px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 8px;
+    }
+
+
+    /* Navigation */
+
+    .nav-title {
+        font-size: 10px;
+        color: #aaa;
+        font-weight: 700;
+        padding-left: 12px;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+    }
+
+    .sidebar-menu {
+        list-style: none;
+        padding: 0;
+    }
+
+    .sidebar-menu li {
+        margin-bottom: 6px;
+    }
+
+    .sidebar-menu a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px;
+        border-radius: 9px;
+        text-decoration: none;
+        color: #777;
+        font-size: 12px;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+    .sidebar-menu a i {
+        font-size: 17px;
+    }
+
+    .sidebar-menu a:hover,
+    .sidebar-menu a.active {
+        background: #fff0f1;
+        color: #d71920;
+    }
+
+
+    /* Logout */
+
+    .logout {
+        position: absolute;
+        bottom: 25px;
+        left: 15px;
+        right: 15px;
+    }
+
+
+    /* =========================
+       MAIN CONTENT
+    ========================== */
+
+    .main-content {
+        margin-left: 250px;
+        min-height: 100vh;
+    }
+
+
+    /* Topbar */
+
+    .topbar {
+        height: 75px;
+        background: white;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 30px;
+    }
+
+    .page-title {
+        font-size: 19px;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .page-subtitle {
+        color: #999;
+        font-size: 11px;
+        margin-top: 3px;
+    }
+
+
+    /* Profile */
+
+    .profile {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .profile-icon {
+        width: 40px;
+        height: 40px;
+        background: #fff0f1;
+        color: #d71920;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .profile-name {
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .profile-role {
+        color: #aaa;
+        font-size: 10px;
+    }
+
+
+    /* =========================
+       CONTENT
+    ========================== */
+
+    .content {
+        padding: 30px;
+    }
+
+
+    /* Search */
+
+    .search-box {
+        background: white;
+        padding: 20px;
+        border-radius: 13px;
+        border: 1px solid #eee;
+        margin-bottom: 25px;
+    }
+
+    .search-box label {
+        font-size: 11px;
+        font-weight: 600;
+        color: #555;
+        margin-bottom: 7px;
+    }
+
+    .form-control,
+    .form-select {
+        height: 45px;
+        border: 1px solid #e5e5e5;
+        font-size: 11px;
+        box-shadow: none !important;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #d71920;
+    }
+
+
+    /* =========================
+       BLOOD BANK CARD
+    ========================== */
+
+    .bank-card {
+        background: white;
+        border: 1px solid #eee;
+        border-radius: 14px;
+        padding: 22px;
+        height: 100%;
+        transition: 0.25s;
+    }
+
+    .bank-card:hover {
+        border-color: #d71920;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+    }
+
+
+    /* Bank Header */
+
+    .bank-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 18px;
+    }
+
+    .bank-icon {
+        width: 48px;
+        height: 48px;
+        background: #fff0f1;
+        color: #d71920;
+        border-radius: 11px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 21px;
+    }
+
+    .bank-status {
+        background: #eaf8ee;
+        color: #269448;
+        padding: 5px 9px;
+        border-radius: 20px;
+        font-size: 8px;
+        font-weight: 700;
+    }
+
+
+    /* Bank Information */
+
+    .bank-name {
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    .bank-address {
+        color: #999;
+        font-size: 10px;
+        margin-bottom: 18px;
+    }
+
+    .bank-address i {
+        color: #d71920;
+        margin-right: 4px;
+    }
+
+
+    /* Contact */
+
+    .contact-info {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 18px;
+    }
+
+    .contact-item {
+        color: #777;
+        font-size: 9px;
+    }
+
+    .contact-item i {
+        color: #d71920;
+        margin-right: 4px;
+    }
+
+
+    /* Blood Availability */
+
+    .availability-title {
+        font-size: 10px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: #555;
+    }
+
+    .blood-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 20px;
+    }
+
+    .blood-badge {
+        background: #fff0f1;
+        color: #d71920;
+        border-radius: 6px;
+        padding: 6px 9px;
+        font-size: 9px;
+        font-weight: 700;
+    }
+
+
+    /* Buttons */
+
+    .card-buttons {
+        display: flex;
+        gap: 8px;
+    }
+
+    .order-btn {
+        flex: 1;
+        background: #d71920;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 10px;
+        font-size: 10px;
+        font-weight: 700;
+        text-decoration: none;
+        text-align: center;
+    }
+
+    .order-btn:hover {
+        background: #a80e14;
+        color: white;
+    }
+
+    .location-btn {
+        width: 42px;
+        background: #fff0f1;
+        color: #d71920;
+        border: none;
+        border-radius: 8px;
+        font-size: 15px;
+    }
+
+    .location-btn:hover {
+        background: #d71920;
+        color: white;
+    }
+
+
+    /* =========================
+       MOBILE
+    ========================== */
+
+    @media (max-width: 768px) {
+
+        .sidebar {
+            width: 70px;
+            padding: 20px 10px;
+        }
+
+        .brand {
+            justify-content: center;
+            padding: 0;
+        }
+
+        .brand-text,
+        .nav-title,
+        .sidebar-menu span {
+            display: none;
+        }
+
+        .brand-icon {
+            margin: 0;
+        }
+
+        .sidebar-menu a {
+            justify-content: center;
+        }
+
+        .logout {
+            left: 10px;
+            right: 10px;
+        }
+
+        .main-content {
+            margin-left: 70px;
+        }
+
+        .topbar {
+            padding: 0 15px;
+        }
+
+        .profile-name,
+        .profile-role {
+            display: none;
+        }
+
+        .content {
+            padding: 20px 15px;
+        }
+
+    }
+
+</style>
+
+
+</head>
+
+<body>
+
+<!-- =========================
+     SIDEBAR
+========================== -->
+
+<aside class="sidebar">
+
+
+<!-- Logo -->
+
+<a href="../index.html" class="brand">
+
+    <div class="brand-icon">
+        <i class="bi bi-droplet-half"></i>
+    </div>
+
+    <div class="brand-text">
+        Blood<span>Connect</span>
+    </div>
+
+</a>
+
+
+<!-- Menu -->
+
+<div class="nav-title">
+    Main Menu
+</div>
+
+
+<ul class="sidebar-menu">
+
+    <li>
+
+        <a href="dashboard.html">
+
+            <i class="bi bi-grid"></i>
+
+            <span>Dashboard</span>
+
+        </a>
+
+    </li>
+
+
+    <li>
+
+        <a href="place-order.html">
+
+            <i class="bi bi-cart-plus"></i>
+
+            <span>Place Blood Order</span>
+
+        </a>
+
+    </li>
+
+
+    <li>
+
+        <a href="my-orders.html">
+
+            <i class="bi bi-box-seam"></i>
+
+            <span>My Orders</span>
+
+        </a>
+
+    </li>
+
+
+    <li>
+
+        <a href="blood-bank.html" class="active">
+
+            <i class="bi bi-hospital"></i>
+
+            <span>Blood Banks</span>
+
+        </a>
+
+    </li>
+
+
+    <li>
+
+        <a href="profile.html">
+
+            <i class="bi bi-person"></i>
+
+            <span>My Profile</span>
+
+        </a>
+
+    </li>
+
+</ul>
+
+
+<!-- Logout -->
+
+<div class="logout">
+
+    <ul class="sidebar-menu">
+
+        <li>
+
+            <a href="login.html">
+
+                <i class="bi bi-box-arrow-left"></i>
+
+                <span>Logout</span>
+
+            </a>
+
+        </li>
+
+    </ul>
+
+</div>
+
+
+</aside>
+
+<!-- =========================
+     MAIN CONTENT
+========================== -->
+
+<main class="main-content">
+
+
+<!-- Topbar -->
+
+<div class="topbar">
+
+    <div>
+
+        <h1 class="page-title">
+            Blood Banks
+        </h1>
+
+        <div class="page-subtitle">
+            Find available blood near you
+        </div>
+
+    </div>
+
+
+    <!-- User Profile -->
+
+    <div class="profile">
+
+        <div class="profile-icon">
+
+            <i class="bi bi-person-fill"></i>
+
+        </div>
+
+        <div>
+
+            <div class="profile-name">
+                Lav Kumar
+            </div>
+
+            <div class="profile-role">
+                Receiver
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     PAGE CONTENT
+========================== -->
+
+<div class="content">
+
+
+    <!-- Search & Filter -->
+
+    <div class="search-box">
+
+        <div class="row g-3 align-items-end">
+
+
+            <!-- Search -->
+
+            <div class="col-md-5">
+
+                <label>
+                    Search Blood Bank
+                </label>
+
+                <input
+                    type="text"
+                    id="searchBank"
+                    class="form-control"
+                    placeholder="Search by blood bank name...">
+
+            </div>
+
+
+            <!-- Location -->
+
+            <div class="col-md-3">
+
+                <label>
+                    Location
+                </label>
+
+                <select id="locationFilter" class="form-select">
+
+                    <option value="">
+                        All Locations
+                    </option>
+
+                    <option value="Kathmandu">
+                        Kathmandu
+                    </option>
+
+                    <option value="Lalitpur">
+                        Lalitpur
+                    </option>
+
+                    <option value="Bhaktapur">
+                        Bhaktapur
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- Blood Group -->
+
+            <div class="col-md-3">
+
+                <label>
+                    Blood Group
+                </label>
+
+                <select id="bloodFilter" class="form-select">
+
+                    <option value="">
+                        All Blood Groups
+                    </option>
+
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+
+                </select>
+
+            </div>
+
+
+            <!-- Search Button -->
+
+            <div class="col-md-1">
+
+                <button
+                    onclick="filterBanks()"
+                    class="order-btn"
+                    style="width:100%;">
+
+                    <i class="bi bi-search"></i>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         BLOOD BANK LIST
+    ========================== -->
+
+    <div class="row g-4" id="bankList">
+
+
+        <!-- =========================
+             BANK 1
+        ========================== -->
+
+        <div
+            class="col-lg-4 col-md-6 bank-item"
+            data-location="Kathmandu"
+            data-blood="A+ O+ B+ O-">
+
+            <div class="bank-card">
+
+                <div class="bank-header">
+
+                    <div class="bank-icon">
+
+                        <i class="bi bi-hospital"></i>
+
+                    </div>
+
+                    <span class="bank-status">
+                        ● OPEN
+                    </span>
+
+                </div>
+
+
+                <div class="bank-name">
+                    Central Blood Bank
+                </div>
+
+                <div class="bank-address">
+
+                    <i class="bi bi-geo-alt-fill"></i>
+
+                    Teku, Kathmandu
+
+                </div>
+
+
+                <div class="contact-info">
+
+                    <div class="contact-item">
+
+                        <i class="bi bi-telephone"></i>
+
+                        01-4251166
+
+                    </div>
+
+                    <div class="contact-item">
+
+                        <i class="bi bi-clock"></i>
+
+                        24 Hours
+
+                    </div>
+
+                </div>
+
+
+                <div class="availability-title">
+                    Available Blood Groups
+                </div>
+
+
+                <div class="blood-list">
+
+                    <span class="blood-badge">
+                        A+ · 12
+                    </span>
+
+                    <span class="blood-badge">
+                        O+ · 15
+                    </span>
+
+                    <span class="blood-badge">
+                        B+ · 8
+                    </span>
+
+                    <span class="blood-badge">
+                        O- · 3
+                    </span>
+
+                </div>
+
+
+                <div class="card-buttons">
+
+                    <a
+                        href="place-order.html"
+                        class="order-btn">
+
+                        <i class="bi bi-cart-plus me-1"></i>
+
+                        Place Order
+
+                    </a>
+
+                    <button
+                        class="location-btn"
+                        title="View Location"
+                        onclick="showLocation('Central Blood Bank')">
+
+                        <i class="bi bi-geo-alt"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             BANK 2
+        ========================== -->
+
+        <div
+            class="col-lg-4 col-md-6 bank-item"
+            data-location="Kathmandu"
+            data-blood="B+ AB+ O+">
+
+            <div class="bank-card">
+
+                <div class="bank-header">
+
+                    <div class="bank-icon">
+
+                        <i class="bi bi-hospital"></i>
+
+                    </div>
+
+                    <span class="bank-status">
+                        ● OPEN
+                    </span>
+
+                </div>
+
+
+                <div class="bank-name">
+                    Kathmandu Blood Bank
+                </div>
+
+                <div class="bank-address">
+
+                    <i class="bi bi-geo-alt-fill"></i>
+
+                    Kalanki, Kathmandu
+
+                </div>
+
+
+                <div class="contact-info">
+
+                    <div class="contact-item">
+
+                        <i class="bi bi-telephone"></i>
+
+                        01-5210123
+
+                    </div>
+
+                    <div class="contact-item">
+
+                        <i class="bi bi-clock"></i>
+
+                        8 AM - 8 PM
+
+                    </div>
+
+                </div>
+
+
+                <div class="availability-title">
+                    Available Blood Groups
+                </div>
+
+
+                <div class="blood-list">
+
+                    <span class="blood-badge">
+                        B+ · 10
+                    </span>
+
+                    <span class="blood-badge">
+                        AB+ · 5
+                    </span>
+
+                    <span class="blood-badge">
+                        O+ · 9
+                    </span>
+
+                </div>
+
+
+                <div class="card-buttons">
+
+                    <a
+                        href="place-order.html"
+                        class="order-btn">
+
+                        <i class="bi bi-cart-plus me-1"></i>
+
+                        Place Order
+
+                    </a>
+
+                    <button
+                        class="location-btn"
+                        title="View Location"
+                        onclick="showLocation('Kathmandu Blood Bank')">
+
+                        <i class="bi bi-geo-alt"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             BANK 3
+        ========================== -->
+
+        <div
+            class="col-lg-4 col-md-6 bank-item"
+            data-location="Lalitpur"
+            data-blood="A+ B- AB+ O+">
+
+            <div class="bank-card">
+
+                <div class="bank-header">
+
+                    <div class="bank-icon">
+
+                        <i class="bi bi-hospital"></i>
+
+                    </div>
+
+                    <span class="bank-status">
+                        ● OPEN
+                    </span>
+
+                </div>
+
+
+                <div class="bank-name">
+                    Nepal Red Cross Blood Bank
+                </div>
+
+                <div class="bank-address">
+
+                    <i class="bi bi-geo-alt-fill"></i>
+
+                    Pulchowk, Lalitpur
+
+                </div>
+
+
+                <div class="contact-info">
+
+                    <div class="contact-item">
+
+                        <i class="bi bi-telephone"></i>
+
+                        01-5548400
+
+                    </div>
+
+                    <div class="contact-item">
+
+                        <i class="bi bi-clock"></i>
+
+                        24 Hours
+
+                    </div>
+
+                </div>
+
+
+                <div class="availability-title">
+                    Available Blood Groups
+                </div>
+
+
+                <div class="blood-list">
+
+                    <span class="blood-badge">
+                        A+ · 7
+                    </span>
+
+                    <span class="blood-badge">
+                        B- · 2
+                    </span>
+
+                    <span class="blood-badge">
+                        AB+ · 4
+                    </span>
+
+                    <span class="blood-badge">
+                        O+ · 11
+                    </span>
+
+                </div>
+
+
+                <div class="card-buttons">
+
+                    <a
+                        href="place-order.html"
+                        class="order-btn">
+
+                        <i class="bi bi-cart-plus me-1"></i>
+
+                        Place Order
+
+                    </a>
+
+                    <button
+                        class="location-btn"
+                        title="View Location"
+                        onclick="showLocation('Nepal Red Cross Blood Bank')">
+
+                        <i class="bi bi-geo-alt"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             BANK 4
+        ========================== -->
+
+        <div
+            class="col-lg-4 col-md-6 bank-item"
+            data-location="Bhaktapur"
+            data-blood="A- B+ O+ AB-">
+
+            <div class="bank-card">
+
+                <div class="bank-header">
+
+                    <div class="bank-icon">
+
+                        <i class="bi bi-hospital"></i>
+
+                    </div>
+
+                    <span class="bank-status">
+                        ● OPEN
+                    </span>
+
+                </div>
+
+
+                <div class="bank-name">
+                    Bhaktapur Blood Bank
+                </div>
+
+                <div class="bank-address">
+
+                    <i class="bi bi-geo-alt-fill"></i>
+
+                    Suryabinayak, Bhaktapur
+
+                </div>
+
+
+                <div class="contact-info">
+
+                    <div class="contact-item">
+
+                        <i class="bi bi-telephone"></i>
+
+                        01-6612345
+
+                    </div>
+
+                    <div class="contact-item">
+
+                        <i class="bi bi-clock"></i>
+
+                        8 AM - 6 PM
+
+                    </div>
+
+                </div>
+
+
+                <div class="availability-title">
+                    Available Blood Groups
+                </div>
+
+
+                <div class="blood-list">
+
+                    <span class="blood-badge">
+                        A- · 3
+                    </span>
+
+                    <span class="blood-badge">
+                        B+ · 6
+                    </span>
+
+                    <span class="blood-badge">
+                        O+ · 8
+                    </span>
+
+                    <span class="blood-badge">
+                        AB- · 1
+                    </span>
+
+                </div>
+
+
+                <div class="card-buttons">
+
+                    <a
+                        href="place-order.html"
+                        class="order-btn">
+
+                        <i class="bi bi-cart-plus me-1"></i>
+
+                        Place Order
+
+                    </a>
+
+                    <button
+                        class="location-btn"
+                        title="View Location"
+                        onclick="showLocation('Bhaktapur Blood Bank')">
+
+                        <i class="bi bi-geo-alt"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             BANK 5
+        ========================== -->
+
+        <div
+            class="col-lg-4 col-md-6 bank-item"
+            data-location="Kathmandu"
+            data-blood="O+ O- A+">
+
+            <div class="bank-card">
+
+                <div class="bank-header">
+
+                    <div class="bank-icon">
+
+                        <i class="bi bi-hospital"></i>
+
+                    </div>
+
+                    <span class="bank-status">
+                        ● OPEN
+                    </span>
+
+                </div>
+
+
+                <div class="bank-name">
+                    Teaching Hospital Blood Bank
+                </div>
+
+                <div class="bank-address">
+
+                    <i class="bi bi-geo-alt-fill"></i>
+
+                    Maharajgunj, Kathmandu
+
+                </div>
+
+
+                <div class="contact-info">
+
+                    <div class="contact-item">
+
+                        <i class="bi bi-telephone"></i>
+
+                        01-4412303
+
+                    </div>
+
+                    <div class="contact-item">
+
+                        <i class="bi bi-clock"></i>
+
+                        24 Hours
+
+                    </div>
+
+                </div>
+
+
+                <div class="availability-title">
+                    Available Blood Groups
+                </div>
+
+
+                <div class="blood-list">
+
+                    <span class="blood-badge">
+                        O+ · 14
+                    </span>
+
+                    <span class="blood-badge">
+                        O- · 4
+                    </span>
+
+                    <span class="blood-badge">
+                        A+ · 8
+                    </span>
+
+                </div>
+
+
+                <div class="card-buttons">
+
+                    <a
+                        href="place-order.html"
+                        class="order-btn">
+
+                        <i class="bi bi-cart-plus me-1"></i>
+
+                        Place Order
+
+                    </a>
+
+                    <button
+                        class="location-btn"
+                        title="View Location"
+                        onclick="showLocation('Teaching Hospital Blood Bank')">
+
+                        <i class="bi bi-geo-alt"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             BANK 6
+        ========================== -->
+
+        <div
+            class="col-lg-4 col-md-6 bank-item"
+            data-location="Lalitpur"
+            data-blood="B+ B- O+ AB+">
+
+            <div class="bank-card">
+
+                <div class="bank-header">
+
+                    <div class="bank-icon">
+
+                        <i class="bi bi-hospital"></i>
+
+                    </div>
+
+                    <span class="bank-status">
+                        ● OPEN
+                    </span>
+
+                </div>
+
+
+                <div class="bank-name">
+                    Patan Blood Bank
+                </div>
+
+                <div class="bank-address">
+
+                    <i class="bi bi-geo-alt-fill"></i>
+
+                    Lagankhel, Lalitpur
+
+                </div>
+
+
+                <div class="contact-info">
+
+                    <div class="contact-item">
+
+                        <i class="bi bi-telephone"></i>
+
+                        01-5522295
+
+                    </div>
+
+                    <div class="contact-item">
+
+                        <i class="bi bi-clock"></i>
+
+                        7 AM - 7 PM
+
+                    </div>
+
+                </div>
+
+
+                <div class="availability-title">
+                    Available Blood Groups
+                </div>
+
+
+                <div class="blood-list">
+
+                    <span class="blood-badge">
+                        B+ · 9
+                    </span>
+
+                    <span class="blood-badge">
+                        B- · 2
+                    </span>
+
+                    <span class="blood-badge">
+                        O+ · 7
+                    </span>
+
+                    <span class="blood-badge">
+                        AB+ · 3
+                    </span>
+
+                </div>
+
+
+                <div class="card-buttons">
+
+                    <a
+                        href="place-order.html"
+                        class="order-btn">
+
+                        <i class="bi bi-cart-plus me-1"></i>
+
+                        Place Order
+
+                    </a>
+
+                    <button
+                        class="location-btn"
+                        title="View Location"
+                        onclick="showLocation('Patan Blood Bank')">
+
+                        <i class="bi bi-geo-alt"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+```
+
+</main>
+
+<!-- Bootstrap JS -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+<script>
+
+    /* =========================
+       FILTER BLOOD BANKS
+    ========================== */
+
+    function filterBanks() {
+
+        const search =
+            document
+                .getElementById("searchBank")
+                .value
+                .toLowerCase();
+
+        const location =
+            document
+                .getElementById("locationFilter")
+                .value;
+
+        const blood =
+            document
+                .getElementById("bloodFilter")
+                .value;
+
+
+        const banks =
+            document.querySelectorAll(".bank-item");
+
+
+        banks.forEach(function(bank) {
+
+            const name =
+                bank
+                    .querySelector(".bank-name")
+                    .textContent
+                    .toLowerCase();
+
+            const bankLocation =
+                bank.dataset.location;
+
+            const availableBlood =
+                bank.dataset.blood;
+
+
+            const searchMatch =
+                name.includes(search);
+
+            const locationMatch =
+                location === "" ||
+                bankLocation === location;
+
+            const bloodMatch =
+                blood === "" ||
+                availableBlood.includes(blood);
+
+
+            if (
+                searchMatch &&
+                locationMatch &&
+                bloodMatch
+            ) {
+
+                bank.style.display = "";
+
+            } else {
+
+                bank.style.display = "none";
+
+            }
+
+        });
+
+    }
+
+
+    /* =========================
+       LOCATION BUTTON
+    ========================== */
+
+    function showLocation(bankName) {
+
+        alert(
+            "Location of " +
+            bankName +
+            " will be displayed here."
+        );
+
+    }
+
+
+    /* =========================
+       LIVE SEARCH
+    ========================== */
+
+    document
+        .getElementById("searchBank")
+        .addEventListener("keyup", filterBanks);
+
+
+    document
+        .getElementById("locationFilter")
+        .addEventListener("change", filterBanks);
+
+
+    document
+        .getElementById("bloodFilter")
+        .addEventListener("change", filterBanks);
+
+</script>
+
+</body>
+
+</html>

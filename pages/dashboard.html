@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>User Dashboard</title>
+
+<!-- Bootstrap CSS -->
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet">
+
+<!-- Bootstrap Icons -->
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<!-- Google Font -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+
+<style>
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: "Poppins", sans-serif;
+        background: #f8f9fa;
+        color: #333;
+    }
+
+
+    /* =========================
+       SIDEBAR
+    ========================== */
+
+    .sidebar {
+        width: 250px;
+        height: 100vh;
+        background: white;
+        position: fixed;
+        left: 0;
+        top: 0;
+        border-right: 1px solid #eee;
+        padding: 22px 15px;
+        z-index: 1000;
+    }
+
+
+    /* Logo */
+
+    .brand {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: #171717;
+        font-size: 21px;
+        font-weight: 800;
+        margin-bottom: 40px;
+        padding-left: 10px;
+    }
+
+    .brand span {
+        color: #d71920;
+    }
+
+    .brand-icon {
+        width: 40px;
+        height: 40px;
+        background: #fff0f1;
+        color: #d71920;
+        border-radius: 11px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 8px;
+    }
+
+
+    /* Navigation */
+
+    .nav-title {
+        font-size: 10px;
+        color: #aaa;
+        font-weight: 700;
+        padding-left: 12px;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+    }
+
+    .sidebar-menu {
+        list-style: none;
+        padding: 0;
+    }
+
+    .sidebar-menu li {
+        margin-bottom: 6px;
+    }
+
+    .sidebar-menu a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px;
+        border-radius: 9px;
+        text-decoration: none;
+        color: #777;
+        font-size: 12px;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+    .sidebar-menu a i {
+        font-size: 17px;
+    }
+
+    .sidebar-menu a:hover,
+    .sidebar-menu a.active {
+        background: #fff0f1;
+        color: #d71920;
+    }
+
+
+    /* Logout */
+
+    .logout {
+        position: absolute;
+        bottom: 25px;
+        left: 15px;
+        right: 15px;
+    }
+
+    .logout a {
+        color: #777;
+    }
+
+    .logout a:hover {
+        color: #d71920;
+    }
+
+
+    /* =========================
+       MAIN CONTENT
+    ========================== */
+
+    .main-content {
+        margin-left: 250px;
+        min-height: 100vh;
+    }
+
+
+    /* Top Navbar */
+
+    .topbar {
+        height: 75px;
+        background: white;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 30px;
+    }
+
+    .page-title {
+        font-size: 19px;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .page-subtitle {
+        color: #999;
+        font-size: 11px;
+        margin-top: 3px;
+    }
+
+
+    /* Profile */
+
+    .profile {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .profile-icon {
+        width: 40px;
+        height: 40px;
+        background: #fff0f1;
+        color: #d71920;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .profile-name {
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .profile-role {
+        color: #aaa;
+        font-size: 10px;
+    }
+
+
+    /* =========================
+       DASHBOARD
+    ========================== */
+
+    .dashboard {
+        padding: 30px;
+    }
+
+
+    /* Welcome Box */
+
+    .welcome-box {
+        background: #d71920;
+        color: white;
+        padding: 25px;
+        border-radius: 15px;
+        margin-bottom: 25px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .welcome-box h2 {
+        font-size: 21px;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    .welcome-box p {
+        font-size: 11px;
+        opacity: 0.85;
+        margin: 0;
+    }
+
+    .welcome-icon {
+        font-size: 60px;
+        opacity: 0.2;
+    }
+
+
+    /* =========================
+       STAT CARDS
+    ========================== */
+
+    .stat-card {
+        background: white;
+        border: 1px solid #eee;
+        border-radius: 13px;
+        padding: 20px;
+        height: 100%;
+    }
+
+    .stat-icon {
+        width: 45px;
+        height: 45px;
+        background: #fff0f1;
+        color: #d71920;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+
+    .stat-number {
+        font-size: 24px;
+        font-weight: 800;
+        color: #222;
+    }
+
+    .stat-label {
+        color: #999;
+        font-size: 11px;
+    }
+
+
+    /* =========================
+       SECTION
+    ========================== */
+
+    .section-card {
+        background: white;
+        border: 1px solid #eee;
+        border-radius: 13px;
+        padding: 22px;
+        margin-top: 25px;
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .section-title {
+        font-size: 15px;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .view-link {
+        color: #d71920;
+        font-size: 11px;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+
+    /* =========================
+       BLOOD CARDS
+    ========================== */
+
+    .blood-card {
+        border: 1px solid #eee;
+        border-radius: 10px;
+        padding: 15px;
+        text-align: center;
+        transition: 0.2s;
+    }
+
+    .blood-card:hover {
+        border-color: #d71920;
+        transform: translateY(-2px);
+    }
+
+    .blood-group {
+        width: 45px;
+        height: 45px;
+        margin: auto;
+        border-radius: 50%;
+        background: #fff0f1;
+        color: #d71920;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 13px;
+    }
+
+    .blood-quantity {
+        font-size: 17px;
+        font-weight: 700;
+        margin-top: 10px;
+    }
+
+    .blood-status {
+        color: #35a853;
+        font-size: 9px;
+        font-weight: 600;
+    }
+
+
+    /* =========================
+       ORDER TABLE
+    ========================== */
+
+    .table {
+        font-size: 11px;
+        vertical-align: middle;
+    }
+
+    .table th {
+        color: #888;
+        font-size: 10px;
+        font-weight: 600;
+        border-bottom: 1px solid #eee;
+    }
+
+    .table td {
+        padding: 14px 8px;
+        border-bottom: 1px solid #f1f1f1;
+    }
+
+    .status {
+        padding: 5px 9px;
+        border-radius: 20px;
+        font-size: 9px;
+        font-weight: 600;
+    }
+
+    .status-pending {
+        background: #fff5df;
+        color: #d88b00;
+    }
+
+    .status-approved {
+        background: #eaf8ee;
+        color: #249443;
+    }
+
+    .status-completed {
+        background: #e8f1ff;
+        color: #3274c7;
+    }
+
+
+    /* =========================
+       ORDER BUTTON
+    ========================== */
+
+    .order-btn {
+        background: #d71920;
+        color: white;
+        border: none;
+        border-radius: 9px;
+        padding: 11px 20px;
+        font-size: 11px;
+        font-weight: 700;
+        text-decoration: none;
+        display: inline-block;
+        transition: 0.2s;
+    }
+
+    .order-btn:hover {
+        background: #a80e14;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+
+    /* =========================
+       BLOOD BANK
+    ========================== */
+
+    .bank-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 13px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .bank-item:last-child {
+        border-bottom: none;
+    }
+
+    .bank-info {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .bank-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 9px;
+        background: #fff0f1;
+        color: #d71920;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .bank-name {
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    .bank-location {
+        color: #aaa;
+        font-size: 9px;
+    }
+
+    .available {
+        color: #35a853;
+        font-size: 9px;
+        font-weight: 600;
+    }
+
+
+    /* =========================
+       MOBILE
+    ========================== */
+
+    @media (max-width: 768px) {
+
+        .sidebar {
+            width: 70px;
+            padding: 20px 10px;
+        }
+
+        .brand {
+            justify-content: center;
+            padding: 0;
+        }
+
+        .brand-text,
+        .nav-title,
+        .sidebar-menu span {
+            display: none;
+        }
+
+        .brand-icon {
+            margin: 0;
+        }
+
+        .sidebar-menu a {
+            justify-content: center;
+        }
+
+        .logout {
+            left: 10px;
+            right: 10px;
+        }
+
+        .main-content {
+            margin-left: 70px;
+        }
+
+        .topbar {
+            padding: 0 15px;
+        }
+
+        .dashboard {
+            padding: 20px 15px;
+        }
+
+        .welcome-box {
+            padding: 20px;
+        }
+
+        .welcome-icon {
+            display: none;
+        }
+
+        .profile-name,
+        .profile-role {
+            display: none;
+        }
+
+    }
+
+</style>
+
+
+</head>
+
+<body>
+
+<!-- =========================
+     SIDEBAR
+========================== -->
+
+<aside class="sidebar">
+
+
+<!-- Logo -->
+
+<a href="../index.html" class="brand">
+
+    <div class="brand-icon">
+        <i class="bi bi-droplet-half"></i>
+    </div>
+
+    <div class="brand-text">
+        Blood<span>Connect</span>
+    </div>
+
+</a>
+
+
+<!-- Menu -->
+
+<div class="nav-title">
+    Main Menu
+</div>
+
+<ul class="sidebar-menu">
+
+    <li>
+        <a href="dashboard.html" class="active">
+
+            <i class="bi bi-grid"></i>
+
+            <span>Dashboard</span>
+
+        </a>
+    </li>
+
+    <li>
+        <a href="place-order.html">
+
+            <i class="bi bi-cart-plus"></i>
+
+            <span>Place Blood Order</span>
+
+        </a>
+    </li>
+
+    <li>
+        <a href="my-orders.html">
+
+            <i class="bi bi-box-seam"></i>
+
+            <span>My Orders</span>
+
+        </a>
+    </li>
+
+    <li>
+        <a href="blood-banks.html">
+
+            <i class="bi bi-hospital"></i>
+
+            <span>Blood Banks</span>
+
+        </a>
+    </li>
+
+    <li>
+        <a href="profile.html">
+
+            <i class="bi bi-person"></i>
+
+            <span>My Profile</span>
+
+        </a>
+    </li>
+
+</ul>
+
+
+<!-- Logout -->
+
+<div class="logout">
+
+    <ul class="sidebar-menu">
+
+        <li>
+            <a href="login.html">
+
+                <i class="bi bi-box-arrow-left"></i>
+
+                <span>Logout</span>
+
+            </a>
+        </li>
+
+    </ul>
+
+</div>
+
+
+</aside>
+
+<!-- =========================
+     MAIN CONTENT
+========================== -->
+
+<main class="main-content">
+
+<!-- Topbar -->
+
+<div class="topbar">
+
+    <div>
+
+        <h1 class="page-title">
+            Dashboard
+        </h1>
+
+        <div class="page-subtitle">
+            Manage your blood orders and requests
+        </div>
+
+    </div>
+
+
+    <!-- Profile -->
+
+    <div class="profile">
+
+        <div class="profile-icon">
+
+            <i class="bi bi-person-fill"></i>
+
+        </div>
+
+        <div>
+
+            <div class="profile-name">
+                Lav Kumar
+            </div>
+
+            <div class="profile-role">
+                Receiver
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     DASHBOARD CONTENT
+========================== -->
+
+<div class="dashboard">
+
+
+    <!-- Welcome -->
+
+    <div class="welcome-box">
+
+        <div>
+
+            <h2>
+                Welcome back, Lav Kumar! 👋
+            </h2>
+
+            <p>
+                Find blood, place an order and track your requests easily.
+            </p>
+
+        </div>
+
+        <div class="welcome-icon">
+
+            <i class="bi bi-droplet-fill"></i>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         STATISTICS
+    ========================== -->
+
+    <div class="row g-3">
+
+        <!-- Orders -->
+
+        <div class="col-md-3 col-6">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    <i class="bi bi-box-seam"></i>
+                </div>
+
+                <div class="stat-number">
+                    8
+                </div>
+
+                <div class="stat-label">
+                    Total Orders
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Pending -->
+
+        <div class="col-md-3 col-6">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    <i class="bi bi-clock"></i>
+                </div>
+
+                <div class="stat-number">
+                    2
+                </div>
+
+                <div class="stat-label">
+                    Pending Orders
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Completed -->
+
+        <div class="col-md-3 col-6">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    <i class="bi bi-check-circle"></i>
+                </div>
+
+                <div class="stat-number">
+                    6
+                </div>
+
+                <div class="stat-label">
+                    Completed Orders
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Blood Group -->
+
+        <div class="col-md-3 col-6">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    <i class="bi bi-droplet"></i>
+                </div>
+
+                <div class="stat-number">
+                    O+
+                </div>
+
+                <div class="stat-label">
+                    Your Blood Group
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         QUICK ACTION
+    ========================== -->
+
+    <div class="section-card">
+
+        <div class="section-header">
+
+            <div>
+
+                <h3 class="section-title">
+                    Need Blood?
+                </h3>
+
+                <small style="font-size:10px;color:#999;">
+                    Place a blood order from available blood banks.
+                </small>
+
+            </div>
+
+            <a href="place-order.html" class="order-btn">
+
+                <i class="bi bi-plus-circle me-1"></i>
+
+                Place Blood Order
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         BLOOD AVAILABILITY
+    ========================== -->
+
+    <div class="section-card">
+
+        <div class="section-header">
+
+            <h3 class="section-title">
+                Blood Availability
+            </h3>
+
+            <a href="blood-banks.html" class="view-link">
+                View Blood Banks
+            </a>
+
+        </div>
+
+
+        <div class="row g-3">
+
+
+            <!-- A+ -->
+
+            <div class="col-lg-3 col-md-4 col-6">
+
+                <div class="blood-card">
+
+                    <div class="blood-group">
+                        A+
+                    </div>
+
+                    <div class="blood-quantity">
+                        12 Units
+                    </div>
+
+                    <div class="blood-status">
+                        ● Available
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- B+ -->
+
+            <div class="col-lg-3 col-md-4 col-6">
+
+                <div class="blood-card">
+
+                    <div class="blood-group">
+                        B+
+                    </div>
+
+                    <div class="blood-quantity">
+                        8 Units
+                    </div>
+
+                    <div class="blood-status">
+                        ● Available
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- O+ -->
+
+            <div class="col-lg-3 col-md-4 col-6">
+
+                <div class="blood-card">
+
+                    <div class="blood-group">
+                        O+
+                    </div>
+
+                    <div class="blood-quantity">
+                        15 Units
+                    </div>
+
+                    <div class="blood-status">
+                        ● Available
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- AB+ -->
+
+            <div class="col-lg-3 col-md-4 col-6">
+
+                <div class="blood-card">
+
+                    <div class="blood-group">
+                        AB+
+                    </div>
+
+                    <div class="blood-quantity">
+                        5 Units
+                    </div>
+
+                    <div class="blood-status">
+                        ● Available
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         RECENT ORDERS
+    ========================== -->
+
+    <div class="section-card">
+
+        <div class="section-header">
+
+            <h3 class="section-title">
+                Recent Orders
+            </h3>
+
+            <a href="my-orders.html" class="view-link">
+                View All
+            </a>
+
+        </div>
+
+
+        <div class="table-responsive">
+
+            <table class="table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Order ID
+                        </th>
+
+                        <th>
+                            Blood Group
+                        </th>
+
+                        <th>
+                            Quantity
+                        </th>
+
+                        <th>
+                            Blood Bank
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    <tr>
+
+                        <td>
+                            #BC1001
+                        </td>
+
+                        <td>
+                            <strong>O+</strong>
+                        </td>
+
+                        <td>
+                            2 Units
+                        </td>
+
+                        <td>
+                            Central Blood Bank
+                        </td>
+
+                        <td>
+                            08 Sep 2026
+                        </td>
+
+                        <td>
+
+                            <span class="status status-approved">
+                                Approved
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+                            #BC1002
+                        </td>
+
+                        <td>
+                            <strong>A+</strong>
+                        </td>
+
+                        <td>
+                            1 Unit
+                        </td>
+
+                        <td>
+                            Kathmandu Blood Bank
+                        </td>
+
+                        <td>
+                            05 Sep 2026
+                        </td>
+
+                        <td>
+
+                            <span class="status status-pending">
+                                Pending
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+                            #BC1003
+                        </td>
+
+                        <td>
+                            <strong>B+</strong>
+                        </td>
+
+                        <td>
+                            2 Units
+                        </td>
+
+                        <td>
+                            Nepal Red Cross
+                        </td>
+
+                        <td>
+                            28 Aug 2026
+                        </td>
+
+                        <td>
+
+                            <span class="status status-completed">
+                                Completed
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         BLOOD BANKS
+    ========================== -->
+
+    <div class="section-card">
+
+        <div class="section-header">
+
+            <h3 class="section-title">
+                Available Blood Banks
+            </h3>
+
+            <a href="blood-banks.html" class="view-link">
+                View All
+            </a>
+
+        </div>
+
+
+        <!-- Bank 1 -->
+
+        <div class="bank-item">
+
+            <div class="bank-info">
+
+                <div class="bank-icon">
+                    <i class="bi bi-hospital"></i>
+                </div>
+
+                <div>
+
+                    <div class="bank-name">
+                        Central Blood Bank
+                    </div>
+
+                    <div class="bank-location">
+                        Kathmandu
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="available">
+                Available
+            </div>
+
+        </div>
+
+
+        <!-- Bank 2 -->
+
+        <div class="bank-item">
+
+            <div class="bank-info">
+
+                <div class="bank-icon">
+                    <i class="bi bi-hospital"></i>
+                </div>
+
+                <div>
+
+                    <div class="bank-name">
+                        Kathmandu Blood Bank
+                    </div>
+
+                    <div class="bank-location">
+                        Kathmandu
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="available">
+                Available
+            </div>
+
+        </div>
+
+
+        <!-- Bank 3 -->
+
+        <div class="bank-item">
+
+            <div class="bank-info">
+
+                <div class="bank-icon">
+                    <i class="bi bi-hospital"></i>
+                </div>
+
+                <div>
+
+                    <div class="bank-name">
+                        Nepal Red Cross Blood Bank
+                    </div>
+
+                    <div class="bank-location">
+                        Lalitpur
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="available">
+                Available
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+</main>
+
+<!-- Bootstrap JS -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+<script>
+
+    // Simple dashboard welcome message
+
+    console.log("BloodConnect User Dashboard Loaded");
+
+</script>
+
+</body>
+
+</html>
