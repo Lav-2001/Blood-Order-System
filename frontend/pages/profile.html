@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>My Profile | BloodConnect</title>
+    <title>My Profile</title>
+
+    <link rel="icon" type="image/png" href="../images/blood_logo.png">
 
     <!-- Bootstrap CSS -->
     <link
@@ -38,32 +40,40 @@
         .sidebar {
             width: 250px;
             height: 100vh;
+            background: white;
             position: fixed;
             left: 0;
             top: 0;
-            background: #fff;
             border-right: 1px solid #eee;
-            padding: 20px 15px;
-            z-index: 1000;
+            padding: 22px 15px;
+            z-index: 1000;        
         }
 
         .brand {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 5px 10px 25px;
+            text-decoration: none;
+            color: #171717;
+            font-size: 21px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            padding-left: 10px;
         }
+
+         .brand span {
+        color: #d71920;
+    }
 
         .brand-icon {
             width: 40px;
             height: 40px;
             background: #fff0f1;
             color: #d71920;
-            border-radius: 10px;
+            border-radius: 11px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
+            margin-right: 8px;
         }
 
         .brand h4 {
@@ -95,8 +105,8 @@
         }
 
         .nav-link.active {
-            background: #d71920;
-            color: white;
+            background: #fff0f1;
+            color: #d71920;
         }
 
         .logout {
@@ -437,6 +447,18 @@
 
 <div class="sidebar">
 
+    <a href="../index.html" class="brand">
+
+    <div class="brand-icon">
+        <img src="../images/blood_logo.png" alt="BloodConnect Logo" class="brand-icon">
+    </div>
+
+    <div class="brand-text">
+        Blood<span>Connect</span>
+    </div>
+
+</a>
+<!-- Brand 
     <div class="brand">
 
         <div class="brand-icon">
@@ -446,7 +468,7 @@
         <h4>BloodConnect</h4>
 
     </div>
-
+-->
 
     <a href="dashboard.html" class="nav-link">
 

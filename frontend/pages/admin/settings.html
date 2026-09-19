@@ -1,0 +1,2254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Settings</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../../images/blood_logo.png">
+
+    <!-- Bootstrap 5 -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet">
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f6fa;
+            color: #333;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+        ====================================================== */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: linear-gradient(180deg, #b30000, #e00000);
+            color: white;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            padding: 22px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-logo img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            background: white;
+            border-radius: 50%;
+            padding: 5px;
+        }
+
+        .sidebar-logo h4 {
+            margin: 0;
+            font-size: 21px;
+            font-weight: bold;
+        }
+
+        .admin-profile {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .admin-profile .admin-icon {
+            width: 65px;
+            height: 65px;
+            background: white;
+            color: #d00000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            font-size: 30px;
+        }
+
+        .admin-profile h6 {
+            margin-top: 10px;
+            margin-bottom: 3px;
+            font-size: 16px;
+        }
+
+        .admin-profile small {
+            opacity: 0.85;
+        }
+
+        .sidebar-menu {
+            padding: 15px 10px;
+        }
+
+        .sidebar-menu a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 12px 15px;
+            border-radius: 7px;
+            margin-bottom: 5px;
+            transition: 0.3s;
+            font-size: 15px;
+        }
+
+        .sidebar-menu a i {
+            font-size: 18px;
+            width: 22px;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: rgba(255,255,255,0.18);
+        }
+
+        .sidebar-menu .logout {
+            margin-top: 20px;
+            background: rgba(0,0,0,0.15);
+        }
+
+
+        /* =====================================================
+           MAIN CONTENT
+        ====================================================== */
+
+        .main-content {
+            margin-left: 250px;
+            min-height: 100vh;
+        }
+
+
+        /* =====================================================
+           TOPBAR
+        ====================================================== */
+
+        .topbar {
+            height: 75px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            border-bottom: 1px solid #e5e5e5;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .topbar-left h4 {
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .menu-btn {
+            display: none;
+            border: none;
+            background: #d00000;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            font-size: 20px;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .notification {
+            position: relative;
+            font-size: 21px;
+            color: #555;
+            cursor: pointer;
+        }
+
+        .notification span {
+            position: absolute;
+            top: -7px;
+            right: -8px;
+            background: #d00000;
+            color: white;
+            width: 17px;
+            height: 17px;
+            border-radius: 50%;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        /* =====================================================
+           PAGE CONTENT
+        ====================================================== */
+
+        .page-content {
+            padding: 30px;
+        }
+
+        .page-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .page-heading h3 {
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .page-heading p {
+            margin: 5px 0 0;
+            color: #777;
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           SETTINGS CARD
+        ====================================================== */
+
+        .settings-card {
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #e5e5e5;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .settings-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid #e5e5e5;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .settings-header-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            background: #ffe5e5;
+            color: #d00000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+
+        .settings-header h5 {
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .settings-header p {
+            margin: 4px 0 0;
+            color: #777;
+            font-size: 13px;
+        }
+
+        .settings-body {
+            padding: 20px;
+        }
+
+
+        /* =====================================================
+           FORM
+        ====================================================== */
+
+        .form-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-control,
+        .form-select {
+            min-height: 44px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #d00000;
+            box-shadow: 0 0 0 0.2rem rgba(208,0,0,0.10);
+        }
+
+
+        /* =====================================================
+           BUTTONS
+        ====================================================== */
+
+        .btn-danger-custom {
+            background: #d00000;
+            border: none;
+            color: white;
+            padding: 9px 16px;
+            border-radius: 6px;
+        }
+
+        .btn-danger-custom:hover {
+            background: #b00000;
+            color: white;
+        }
+
+        .btn-outline-danger-custom {
+            border: 1px solid #d00000;
+            color: #d00000;
+            background: white;
+            padding: 9px 16px;
+            border-radius: 6px;
+        }
+
+        .btn-outline-danger-custom:hover {
+            background: #d00000;
+            color: white;
+        }
+
+
+        /* =====================================================
+           PROFILE
+        ====================================================== */
+
+        .profile-box {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .profile-icon {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: #ffe5e5;
+            color: #d00000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+        }
+
+        .profile-box h5 {
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .profile-box p {
+            margin: 4px 0 0;
+            color: #777;
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           SETTINGS ROW
+        ====================================================== */
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .setting-row:last-child {
+            border-bottom: none;
+        }
+
+        .setting-info strong {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .setting-info small {
+            color: #777;
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           SWITCH
+        ====================================================== */
+
+        .form-check-input {
+            width: 44px;
+            height: 22px;
+            cursor: pointer;
+        }
+
+        .form-check-input:checked {
+            background-color: #d00000;
+            border-color: #d00000;
+        }
+
+
+        /* =====================================================
+           SECURITY
+        ====================================================== */
+
+        .security-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .security-item:last-child {
+            border-bottom: none;
+        }
+
+        .security-item strong {
+            font-size: 14px;
+        }
+
+        .security-item small {
+            display: block;
+            color: #777;
+            margin-top: 4px;
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           DANGER ZONE
+        ====================================================== */
+
+        .danger-card {
+            border: 1px solid #f1bcbc;
+        }
+
+        .danger-header {
+            background: #fff5f5;
+        }
+
+        .danger-icon {
+            background: #ffdede;
+            color: #d00000;
+        }
+
+
+        /* =====================================================
+           ALERT
+        ====================================================== */
+
+        #saveMessage {
+            display: none;
+        }
+
+
+        /* =====================================================
+           SIDEBAR OVERLAY
+        ====================================================== */
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            z-index: 999;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+
+        @media (max-width: 991px) {
+
+            .sidebar {
+                left: -250px;
+                transition: 0.3s;
+            }
+
+            .sidebar.show {
+                left: 0;
+            }
+
+            .sidebar-overlay.show {
+                display: block;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .menu-btn {
+                display: block;
+            }
+
+            .page-content {
+                padding: 20px;
+            }
+
+        }
+
+
+        @media (max-width: 576px) {
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .topbar-left h4 {
+                font-size: 18px;
+            }
+
+            .page-content {
+                padding: 15px;
+            }
+
+            .settings-body {
+                padding: 15px;
+            }
+
+            .profile-box {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .setting-row {
+                gap: 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar" id="sidebar">
+
+
+        <div class="sidebar-logo">
+
+            <img
+                src="../../images/blood_logo.png"
+                alt="BloodConnect Logo">
+
+            <h4>
+                BloodConnect
+            </h4>
+
+        </div>
+
+
+        <div class="admin-profile">
+
+            <div class="admin-icon">
+
+                <i class="bi bi-person-fill"></i>
+
+            </div>
+
+            <h6>
+                Administrator
+            </h6>
+
+            <small>
+                System Admin
+            </small>
+
+        </div>
+
+
+        <div class="sidebar-menu">
+
+
+            <!-- Dashboard -->
+
+            <a href="dashboard.html">
+
+                <i class="bi bi-speedometer2"></i>
+
+                Dashboard
+
+            </a>
+
+
+            <!-- Blood Banks -->
+
+            <a href="bloodbanks.html">
+
+                <i class="bi bi-hospital"></i>
+
+                Blood Banks
+
+            </a>
+
+
+            <!-- Blood Stock -->
+
+            <a href="bloodstock.html">
+
+                <i class="bi bi-droplet-fill"></i>
+
+                Blood Stock
+
+            </a>
+
+
+            <!-- Blood Orders -->
+
+            <a href="orders.html">
+
+                <i class="bi bi-cart-check"></i>
+
+                Blood Orders
+
+            </a>
+
+
+            <!-- Reports -->
+
+            <a href="reports.html">
+
+                <i class="bi bi-bar-chart-fill"></i>
+
+                Reports
+
+            </a>
+
+
+            <!-- Settings -->
+
+            <a href="settings.html" class="active">
+
+                <i class="bi bi-gear-fill"></i>
+
+                Settings
+
+            </a>
+
+
+            <!-- Logout -->
+
+            <a
+                href="login.html"
+                class="logout"
+                onclick="logoutAdmin()">
+
+                <i class="bi bi-box-arrow-right"></i>
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         SIDEBAR OVERLAY
+    ====================================================== -->
+
+    <div
+        class="sidebar-overlay"
+        id="sidebarOverlay"
+        onclick="toggleSidebar()">
+    </div>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <div class="main-content">
+
+
+        <!-- =================================================
+             TOPBAR
+        ================================================== -->
+
+        <div class="topbar">
+
+
+            <div class="topbar-left">
+
+
+                <button
+                    class="menu-btn"
+                    onclick="toggleSidebar()">
+
+                    <i class="bi bi-list"></i>
+
+                </button>
+
+
+                <h4>
+                    Settings
+                </h4>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+
+                <div class="notification">
+
+                    <i class="bi bi-bell"></i>
+
+                    <span>
+                        3
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             PAGE CONTENT
+        ================================================== -->
+
+        <div class="page-content">
+
+
+            <!-- Page Heading -->
+
+            <div class="page-heading">
+
+                <div>
+
+                    <h3>
+                        Settings
+                    </h3>
+
+                    <p>
+                        Manage your BloodConnect system settings.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 SUCCESS MESSAGE
+            ================================================== -->
+
+            <div
+                class="alert alert-success"
+                id="saveMessage">
+
+                <i class="bi bi-check-circle-fill me-2"></i>
+
+                Settings saved successfully.
+
+            </div>
+
+
+
+            <!-- =================================================
+                 ADMIN PROFILE
+            ================================================== -->
+
+            <div class="settings-card">
+
+
+                <div class="settings-header">
+
+                    <div class="settings-header-icon">
+
+                        <i class="bi bi-person-fill"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h5>
+                            Administrator Profile
+                        </h5>
+
+                        <p>
+                            Manage administrator account information.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="settings-body">
+
+
+                    <div class="profile-box">
+
+                        <div class="profile-icon">
+
+                            <i class="bi bi-person-fill"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h5>
+                                Administrator
+                            </h5>
+
+                            <p>
+                                System Administrator
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="row g-3">
+
+
+                        <!-- Username -->
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">
+                                Username
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="username"
+                                value="admin">
+
+                        </div>
+
+
+                        <!-- Email -->
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">
+                                Email Address
+                            </label>
+
+                            <input
+                                type="email"
+                                class="form-control"
+                                id="email"
+                                value="admin@bloodconnect.com">
+
+                        </div>
+
+
+                        <!-- Full Name -->
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">
+                                Full Name
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="fullname"
+                                value="Administrator">
+
+                        </div>
+
+
+                        <!-- Phone -->
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">
+                                Phone Number
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="phone"
+                                value="01-4100000">
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mt-4">
+
+                        <button
+                            class="btn btn-danger-custom"
+                            onclick="saveProfile()">
+
+                            <i class="bi bi-check-lg"></i>
+
+                            Save Profile
+
+                        </button>
+
+
+                        <button
+                            class="btn btn-outline-danger-custom ms-2"
+                            onclick="resetProfile()">
+
+                            <i class="bi bi-arrow-counterclockwise"></i>
+
+                            Reset
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 CHANGE PASSWORD
+            ================================================== -->
+
+            <div class="settings-card">
+
+
+                <div class="settings-header">
+
+                    <div class="settings-header-icon">
+
+                        <i class="bi bi-lock-fill"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h5>
+                            Change Password
+                        </h5>
+
+                        <p>
+                            Update your administrator login password.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="settings-body">
+
+
+                    <div class="row g-3">
+
+
+                        <!-- Current Password -->
+
+                        <div class="col-md-4">
+
+                            <label class="form-label">
+                                Current Password
+                            </label>
+
+                            <input
+                                type="password"
+                                class="form-control"
+                                id="currentPassword"
+                                placeholder="Current password">
+
+                        </div>
+
+
+                        <!-- New Password -->
+
+                        <div class="col-md-4">
+
+                            <label class="form-label">
+                                New Password
+                            </label>
+
+                            <input
+                                type="password"
+                                class="form-control"
+                                id="newPassword"
+                                placeholder="New password">
+
+                        </div>
+
+
+                        <!-- Confirm Password -->
+
+                        <div class="col-md-4">
+
+                            <label class="form-label">
+                                Confirm Password
+                            </label>
+
+                            <input
+                                type="password"
+                                class="form-control"
+                                id="confirmPassword"
+                                placeholder="Confirm password">
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mt-4">
+
+                        <button
+                            class="btn btn-danger-custom"
+                            onclick="changePassword()">
+
+                            <i class="bi bi-key-fill"></i>
+
+                            Update Password
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 NOTIFICATION SETTINGS
+            ================================================== -->
+
+            <div class="settings-card">
+
+
+                <div class="settings-header">
+
+                    <div class="settings-header-icon">
+
+                        <i class="bi bi-bell-fill"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h5>
+                            Notification Settings
+                        </h5>
+
+                        <p>
+                            Manage administrator notifications.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="settings-body">
+
+
+                    <!-- New Order -->
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <strong>
+                                New Blood Order
+                            </strong>
+
+                            <small>
+                                Receive notification when a new blood order is placed.
+                            </small>
+
+                        </div>
+
+
+                        <div class="form-check form-switch">
+
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                id="newOrderNotification"
+                                checked>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Low Stock -->
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <strong>
+                                Low Blood Stock
+                            </strong>
+
+                            <small>
+                                Receive notification when blood stock becomes low.
+                            </small>
+
+                        </div>
+
+
+                        <div class="form-check form-switch">
+
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                id="lowStockNotification"
+                                checked>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Order Status -->
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <strong>
+                                Order Status Updates
+                            </strong>
+
+                            <small>
+                                Receive notification when an order status changes.
+                            </small>
+
+                        </div>
+
+
+                        <div class="form-check form-switch">
+
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                id="orderStatusNotification"
+                                checked>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- System Alerts -->
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <strong>
+                                System Alerts
+                            </strong>
+
+                            <small>
+                                Receive important BloodConnect system alerts.
+                            </small>
+
+                        </div>
+
+
+                        <div class="form-check form-switch">
+
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                id="systemNotification"
+                                checked>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mt-4">
+
+                        <button
+                            class="btn btn-danger-custom"
+                            onclick="saveNotifications()">
+
+                            <i class="bi bi-check-lg"></i>
+
+                            Save Notifications
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 SYSTEM SETTINGS
+            ================================================== -->
+
+            <div class="settings-card">
+
+
+                <div class="settings-header">
+
+                    <div class="settings-header-icon">
+
+                        <i class="bi bi-sliders"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h5>
+                            System Settings
+                        </h5>
+
+                        <p>
+                            Manage general BloodConnect system preferences.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="settings-body">
+
+
+                    <div class="row g-3">
+
+
+                        <!-- System Name -->
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">
+                                System Name
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="systemName"
+                                value="BloodConnect">
+
+                        </div>
+
+
+                        <!-- Default Order Status -->
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">
+                                Default Order Status
+                            </label>
+
+                            <select
+                                class="form-select"
+                                id="defaultStatus">
+
+                                <option value="Pending" selected>
+                                    Pending
+                                </option>
+
+                                <option value="Processing">
+                                    Processing
+                                </option>
+
+                                <option value="Completed">
+                                    Completed
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- Low Stock -->
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">
+                                Low Stock Alert Level
+                            </label>
+
+                            <input
+                                type="number"
+                                class="form-control"
+                                id="lowStockLevel"
+                                value="10"
+                                min="1">
+
+                        </div>
+
+
+                        <!-- Time Zone -->
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">
+                                Time Zone
+                            </label>
+
+                            <select
+                                class="form-select"
+                                id="timezone">
+
+                                <option selected>
+                                    Nepal Time (UTC +05:45)
+                                </option>
+
+                                <option>
+                                    India Standard Time (UTC +05:30)
+                                </option>
+
+                                <option>
+                                    UTC
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mt-4">
+
+                        <button
+                            class="btn btn-danger-custom"
+                            onclick="saveSystemSettings()">
+
+                            <i class="bi bi-check-lg"></i>
+
+                            Save System Settings
+
+                        </button>
+
+
+                        <button
+                            class="btn btn-outline-danger-custom ms-2"
+                            onclick="resetSystemSettings()">
+
+                            <i class="bi bi-arrow-counterclockwise"></i>
+
+                            Reset
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 SECURITY SETTINGS
+            ================================================== -->
+
+            <div class="settings-card">
+
+
+                <div class="settings-header">
+
+                    <div class="settings-header-icon">
+
+                        <i class="bi bi-shield-lock-fill"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h5>
+                            Security
+                        </h5>
+
+                        <p>
+                            Manage administrator security settings.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="settings-body">
+
+
+                    <!-- Login Session -->
+
+                    <div class="security-item">
+
+                        <div class="d-flex justify-content-between align-items-center gap-3">
+
+                            <div>
+
+                                <strong>
+                                    Remember Login Session
+                                </strong>
+
+                                <small>
+                                    Keep the administrator logged in on this device.
+                                </small>
+
+                            </div>
+
+
+                            <div class="form-check form-switch">
+
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    id="rememberSession"
+                                    checked>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Login Notification -->
+
+                    <div class="security-item">
+
+                        <div class="d-flex justify-content-between align-items-center gap-3">
+
+                            <div>
+
+                                <strong>
+                                    Login Notifications
+                                </strong>
+
+                                <small>
+                                    Notify the administrator about new login activity.
+                                </small>
+
+                            </div>
+
+
+                            <div class="form-check form-switch">
+
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    id="loginNotification"
+                                    checked>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Auto Logout -->
+
+                    <div class="security-item">
+
+                        <div class="d-flex justify-content-between align-items-center gap-3">
+
+                            <div>
+
+                                <strong>
+                                    Automatic Logout
+                                </strong>
+
+                                <small>
+                                    Automatically end inactive administrator sessions.
+                                </small>
+
+                            </div>
+
+
+                            <div class="form-check form-switch">
+
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    id="autoLogout">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mt-4">
+
+                        <button
+                            class="btn btn-danger-custom"
+                            onclick="saveSecuritySettings()">
+
+                            <i class="bi bi-shield-check"></i>
+
+                            Save Security Settings
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 ACCOUNT ACTION
+            ================================================== -->
+
+            <div class="settings-card danger-card">
+
+
+                <div class="settings-header danger-header">
+
+                    <div class="settings-header-icon danger-icon">
+
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h5>
+                            Account Actions
+                        </h5>
+
+                        <p>
+                            Manage your administrator session.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="settings-body">
+
+
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+                        <div>
+
+                            <strong>
+                                Logout from BloodConnect
+                            </strong>
+
+                            <p class="text-muted mb-0 mt-1">
+                                End your current administrator session.
+                            </p>
+
+                        </div>
+
+
+                        <button
+                            class="btn btn-outline-danger-custom"
+                            onclick="logoutAdmin()">
+
+                            <i class="bi bi-box-arrow-right"></i>
+
+                            Logout
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+
+
+        /* =====================================================
+           SIDEBAR TOGGLE
+        ====================================================== */
+
+        function toggleSidebar() {
+
+            document
+                .getElementById("sidebar")
+                .classList.toggle("show");
+
+            document
+                .getElementById("sidebarOverlay")
+                .classList.toggle("show");
+
+        }
+
+
+        /* =====================================================
+           SHOW SAVE MESSAGE
+        ====================================================== */
+
+        function showSaveMessage() {
+
+            const message =
+                document.getElementById("saveMessage");
+
+            message.style.display = "block";
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+
+            setTimeout(function () {
+
+                message.style.display = "none";
+
+            }, 3000);
+
+        }
+
+
+        /* =====================================================
+           SAVE PROFILE
+        ====================================================== */
+
+        function saveProfile() {
+
+            const username =
+                document.getElementById("username").value.trim();
+
+            const email =
+                document.getElementById("email").value.trim();
+
+            const fullname =
+                document.getElementById("fullname").value.trim();
+
+            const phone =
+                document.getElementById("phone").value.trim();
+
+
+            if (
+                username === "" ||
+                email === "" ||
+                fullname === "" ||
+                phone === ""
+            ) {
+
+                alert(
+                    "Please fill in all profile fields."
+                );
+
+                return;
+
+            }
+
+
+            localStorage.setItem(
+                "adminUsername",
+                username
+            );
+
+            localStorage.setItem(
+                "adminEmail",
+                email
+            );
+
+            localStorage.setItem(
+                "adminFullname",
+                fullname
+            );
+
+            localStorage.setItem(
+                "adminPhone",
+                phone
+            );
+
+
+            showSaveMessage();
+
+        }
+
+
+        /* =====================================================
+           RESET PROFILE
+        ====================================================== */
+
+        function resetProfile() {
+
+            document.getElementById("username").value =
+                "admin";
+
+            document.getElementById("email").value =
+                "admin@bloodconnect.com";
+
+            document.getElementById("fullname").value =
+                "Administrator";
+
+            document.getElementById("phone").value =
+                "01-4100000";
+
+        }
+
+
+        /* =====================================================
+           CHANGE PASSWORD
+        ====================================================== */
+
+        function changePassword() {
+
+            const currentPassword =
+                document.getElementById("currentPassword").value;
+
+            const newPassword =
+                document.getElementById("newPassword").value;
+
+            const confirmPassword =
+                document.getElementById("confirmPassword").value;
+
+
+            if (
+                currentPassword === "" ||
+                newPassword === "" ||
+                confirmPassword === ""
+            ) {
+
+                alert(
+                    "Please fill in all password fields."
+                );
+
+                return;
+
+            }
+
+
+            if (newPassword.length < 6) {
+
+                alert(
+                    "New password must contain at least 6 characters."
+                );
+
+                return;
+
+            }
+
+
+            if (newPassword !== confirmPassword) {
+
+                alert(
+                    "New password and confirm password do not match."
+                );
+
+                return;
+
+            }
+
+
+            localStorage.setItem(
+                "adminPassword",
+                newPassword
+            );
+
+
+            document.getElementById(
+                "currentPassword"
+            ).value = "";
+
+            document.getElementById(
+                "newPassword"
+            ).value = "";
+
+            document.getElementById(
+                "confirmPassword"
+            ).value = "";
+
+
+            alert(
+                "Password updated successfully."
+            );
+
+        }
+
+
+        /* =====================================================
+           SAVE NOTIFICATION SETTINGS
+        ====================================================== */
+
+        function saveNotifications() {
+
+            localStorage.setItem(
+                "newOrderNotification",
+                document.getElementById(
+                    "newOrderNotification"
+                ).checked
+            );
+
+
+            localStorage.setItem(
+                "lowStockNotification",
+                document.getElementById(
+                    "lowStockNotification"
+                ).checked
+            );
+
+
+            localStorage.setItem(
+                "orderStatusNotification",
+                document.getElementById(
+                    "orderStatusNotification"
+                ).checked
+            );
+
+
+            localStorage.setItem(
+                "systemNotification",
+                document.getElementById(
+                    "systemNotification"
+                ).checked
+            );
+
+
+            showSaveMessage();
+
+        }
+
+
+        /* =====================================================
+           SAVE SYSTEM SETTINGS
+        ====================================================== */
+
+        function saveSystemSettings() {
+
+            localStorage.setItem(
+                "systemName",
+                document.getElementById(
+                    "systemName"
+                ).value
+            );
+
+
+            localStorage.setItem(
+                "defaultOrderStatus",
+                document.getElementById(
+                    "defaultStatus"
+                ).value
+            );
+
+
+            localStorage.setItem(
+                "lowStockLevel",
+                document.getElementById(
+                    "lowStockLevel"
+                ).value
+            );
+
+
+            localStorage.setItem(
+                "timezone",
+                document.getElementById(
+                    "timezone"
+                ).value
+            );
+
+
+            showSaveMessage();
+
+        }
+
+
+        /* =====================================================
+           RESET SYSTEM SETTINGS
+        ====================================================== */
+
+        function resetSystemSettings() {
+
+            document.getElementById(
+                "systemName"
+            ).value = "BloodConnect";
+
+
+            document.getElementById(
+                "defaultStatus"
+            ).value = "Pending";
+
+
+            document.getElementById(
+                "lowStockLevel"
+            ).value = "10";
+
+
+            document.getElementById(
+                "timezone"
+            ).selectedIndex = 0;
+
+        }
+
+
+        /* =====================================================
+           SAVE SECURITY SETTINGS
+        ====================================================== */
+
+        function saveSecuritySettings() {
+
+            localStorage.setItem(
+                "rememberSession",
+                document.getElementById(
+                    "rememberSession"
+                ).checked
+            );
+
+
+            localStorage.setItem(
+                "loginNotification",
+                document.getElementById(
+                    "loginNotification"
+                ).checked
+            );
+
+
+            localStorage.setItem(
+                "autoLogout",
+                document.getElementById(
+                    "autoLogout"
+                ).checked
+            );
+
+
+            showSaveMessage();
+
+        }
+
+
+        /* =====================================================
+           LOAD SAVED SETTINGS
+        ====================================================== */
+
+        window.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+
+                /* PROFILE */
+
+                const username =
+                    localStorage.getItem(
+                        "adminUsername"
+                    );
+
+                const email =
+                    localStorage.getItem(
+                        "adminEmail"
+                    );
+
+                const fullname =
+                    localStorage.getItem(
+                        "adminFullname"
+                    );
+
+                const phone =
+                    localStorage.getItem(
+                        "adminPhone"
+                    );
+
+
+                if (username) {
+
+                    document.getElementById(
+                        "username"
+                    ).value = username;
+
+                }
+
+
+                if (email) {
+
+                    document.getElementById(
+                        "email"
+                    ).value = email;
+
+                }
+
+
+                if (fullname) {
+
+                    document.getElementById(
+                        "fullname"
+                    ).value = fullname;
+
+                }
+
+
+                if (phone) {
+
+                    document.getElementById(
+                        "phone"
+                    ).value = phone;
+
+                }
+
+
+                /* NOTIFICATIONS */
+
+                const newOrder =
+                    localStorage.getItem(
+                        "newOrderNotification"
+                    );
+
+                const lowStock =
+                    localStorage.getItem(
+                        "lowStockNotification"
+                    );
+
+                const orderStatus =
+                    localStorage.getItem(
+                        "orderStatusNotification"
+                    );
+
+                const system =
+                    localStorage.getItem(
+                        "systemNotification"
+                    );
+
+
+                if (newOrder !== null) {
+
+                    document.getElementById(
+                        "newOrderNotification"
+                    ).checked =
+                        newOrder === "true";
+
+                }
+
+
+                if (lowStock !== null) {
+
+                    document.getElementById(
+                        "lowStockNotification"
+                    ).checked =
+                        lowStock === "true";
+
+                }
+
+
+                if (orderStatus !== null) {
+
+                    document.getElementById(
+                        "orderStatusNotification"
+                    ).checked =
+                        orderStatus === "true";
+
+                }
+
+
+                if (system !== null) {
+
+                    document.getElementById(
+                        "systemNotification"
+                    ).checked =
+                        system === "true";
+
+                }
+
+
+                /* SYSTEM SETTINGS */
+
+                const systemName =
+                    localStorage.getItem(
+                        "systemName"
+                    );
+
+                const defaultStatus =
+                    localStorage.getItem(
+                        "defaultOrderStatus"
+                    );
+
+                const lowStockLevel =
+                    localStorage.getItem(
+                        "lowStockLevel"
+                    );
+
+
+                if (systemName) {
+
+                    document.getElementById(
+                        "systemName"
+                    ).value = systemName;
+
+                }
+
+
+                if (defaultStatus) {
+
+                    document.getElementById(
+                        "defaultStatus"
+                    ).value = defaultStatus;
+
+                }
+
+
+                if (lowStockLevel) {
+
+                    document.getElementById(
+                        "lowStockLevel"
+                    ).value = lowStockLevel;
+
+                }
+
+
+                /* SECURITY SETTINGS */
+
+                const rememberSession =
+                    localStorage.getItem(
+                        "rememberSession"
+                    );
+
+                const loginNotification =
+                    localStorage.getItem(
+                        "loginNotification"
+                    );
+
+                const autoLogout =
+                    localStorage.getItem(
+                        "autoLogout"
+                    );
+
+
+                if (rememberSession !== null) {
+
+                    document.getElementById(
+                        "rememberSession"
+                    ).checked =
+                        rememberSession === "true";
+
+                }
+
+
+                if (loginNotification !== null) {
+
+                    document.getElementById(
+                        "loginNotification"
+                    ).checked =
+                        loginNotification === "true";
+
+                }
+
+
+                if (autoLogout !== null) {
+
+                    document.getElementById(
+                        "autoLogout"
+                    ).checked =
+                        autoLogout === "true";
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           ADMIN LOGOUT
+        ====================================================== */
+
+        function logoutAdmin() {
+
+            const confirmLogout =
+                confirm(
+                    "Are you sure you want to logout?"
+                );
+
+
+            if (confirmLogout) {
+
+                localStorage.removeItem(
+                    "adminLoggedIn"
+                );
+
+                sessionStorage.removeItem(
+                    "adminLoggedIn"
+                );
+
+                window.location.href =
+                    "login.html";
+
+            }
+
+        }
+
+    </script>
+
+
+    <!-- Bootstrap JS -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+</body>
+
+</html>

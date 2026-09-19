@@ -1,0 +1,2638 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Blood Banks</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../../images/blood_logo.png">
+
+    <!-- Bootstrap 5 -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet">
+
+    <style>
+
+        /* =====================================================
+           GENERAL
+        ====================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f6fa;
+            color: #333;
+        }
+
+        /* =====================================================
+           SIDEBAR
+        ====================================================== */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: linear-gradient(180deg, #b30000, #e00000);
+            color: white;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            padding: 22px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-logo img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            background: white;
+            border-radius: 50%;
+            padding: 5px;
+        }
+
+        .sidebar-logo h4 {
+            margin: 0;
+            font-size: 21px;
+            font-weight: bold;
+        }
+
+        .admin-profile {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .admin-profile .admin-icon {
+            width: 65px;
+            height: 65px;
+            background: white;
+            color: #d00000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            font-size: 30px;
+        }
+
+        .admin-profile h6 {
+            margin-top: 10px;
+            margin-bottom: 3px;
+            font-size: 16px;
+        }
+
+        .admin-profile small {
+            opacity: 0.85;
+        }
+
+        .sidebar-menu {
+            padding: 15px 10px;
+        }
+
+        .sidebar-menu a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 12px 15px;
+            border-radius: 7px;
+            margin-bottom: 5px;
+            transition: 0.3s;
+            font-size: 15px;
+        }
+
+        .sidebar-menu a i {
+            font-size: 18px;
+            width: 22px;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: rgba(255,255,255,0.18);
+        }
+
+        .sidebar-menu .logout {
+            margin-top: 20px;
+            background: rgba(0,0,0,0.15);
+        }
+
+        /* =====================================================
+           MAIN CONTENT
+        ====================================================== */
+
+        .main-content {
+            margin-left: 250px;
+            min-height: 100vh;
+        }
+
+        /* =====================================================
+           TOPBAR
+        ====================================================== */
+
+        .topbar {
+            height: 75px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            border-bottom: 1px solid #e5e5e5;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .topbar-left h4 {
+            margin: 0;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .menu-btn {
+            display: none;
+            border: none;
+            background: #d00000;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            font-size: 20px;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .notification {
+            position: relative;
+            font-size: 21px;
+            color: #555;
+            cursor: pointer;
+        }
+
+        .notification span {
+            position: absolute;
+            top: -7px;
+            right: -8px;
+            background: #d00000;
+            color: white;
+            width: 17px;
+            height: 17px;
+            border-radius: 50%;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* =====================================================
+           PAGE CONTENT
+        ====================================================== */
+
+        .page-content {
+            padding: 30px;
+        }
+
+        .page-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .page-heading h3 {
+            margin: 0;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .page-heading p {
+            margin: 5px 0 0;
+            color: #777;
+            font-size: 14px;
+        }
+
+        .btn-danger {
+            background: #d00000;
+            border-color: #d00000;
+        }
+
+        .btn-danger:hover {
+            background: #a80000;
+            border-color: #a80000;
+        }
+
+        /* =====================================================
+           STAT CARDS
+        ====================================================== */
+
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #e8e8e8;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .stat-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffe5e5;
+            color: #d00000;
+            font-size: 25px;
+        }
+
+        .stat-card h4 {
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .stat-card p {
+            margin: 3px 0 0;
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* =====================================================
+           SEARCH AND FILTER
+        ====================================================== */
+
+        .filter-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #e5e5e5;
+            margin-top: 25px;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        .search-box input {
+            padding-left: 40px;
+        }
+
+        /* =====================================================
+           TABLE
+        ====================================================== */
+
+        .table-card {
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #e5e5e5;
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid #e5e5e5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-header h5 {
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            background: #fafafa;
+            color: #555;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 15px;
+            white-space: nowrap;
+        }
+
+        .table tbody td {
+            padding: 15px;
+            vertical-align: middle;
+            font-size: 14px;
+        }
+
+        .bank-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .bank-icon {
+            width: 40px;
+            height: 40px;
+            background: #ffe5e5;
+            color: #d00000;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 19px;
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: #dff7e8;
+            color: #198754;
+        }
+
+        .status-inactive {
+            background: #ffe1e1;
+            color: #dc3545;
+        }
+
+        .action-btn {
+            width: 34px;
+            height: 34px;
+            border: none;
+            border-radius: 6px;
+            margin-right: 4px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .view-btn {
+            background: #e8f1ff;
+            color: #0d6efd;
+        }
+
+        .edit-btn {
+            background: #fff3cd;
+            color: #997404;
+        }
+
+        .delete-btn {
+            background: #ffe1e1;
+            color: #dc3545;
+        }
+
+        .action-btn:hover {
+            opacity: 0.75;
+        }
+
+        /* =====================================================
+           MODAL
+        ====================================================== */
+
+        .modal-header {
+            background: #d00000;
+            color: white;
+        }
+
+        .modal-header .btn-close {
+            filter: brightness(0) invert(1);
+        }
+
+        .form-label {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .blood-type-check {
+            display: inline-block;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        /* =====================================================
+           MOBILE OVERLAY
+        ====================================================== */
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            z-index: 999;
+        }
+
+        /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+
+        @media (max-width: 991px) {
+
+            .sidebar {
+                left: -250px;
+                transition: 0.3s;
+            }
+
+            .sidebar.show {
+                left: 0;
+            }
+
+            .sidebar-overlay.show {
+                display: block;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .menu-btn {
+                display: block;
+            }
+
+            .page-content {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .topbar-left h4 {
+                font-size: 18px;
+            }
+
+            .topbar-right {
+                gap: 10px;
+            }
+
+            .page-heading {
+                align-items: flex-start;
+            }
+
+            .page-heading .btn {
+                width: 100%;
+            }
+
+            .filter-box {
+                padding: 15px;
+            }
+
+            .table-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- =====================================================
+         SIDEBAR OVERLAY
+    ====================================================== -->
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-logo">
+
+            <img src="../../images/blood_logo.png" alt="BloodConnect Logo">
+
+            <h4>BloodConnect</h4>
+
+        </div>
+
+
+        <div class="admin-profile">
+
+            <div class="admin-icon">
+                <i class="bi bi-person-fill"></i>
+            </div>
+
+            <h6>Administrator</h6>
+
+            <small>System Admin</small>
+
+        </div>
+
+
+        <div class="sidebar-menu">
+
+            <a href="dashboard.html">
+                <i class="bi bi-speedometer2"></i>
+                Dashboard
+            </a>
+
+            <a href="bloodbanks.html" class="active">
+                <i class="bi bi-hospital"></i>
+                Blood Banks
+            </a>
+
+            <a href="bloodstock.html">
+                <i class="bi bi-droplet-fill"></i>
+                Blood Inventory
+            </a>
+
+            <a href="orders.html">
+                <i class="bi bi-cart-check"></i>
+                Blood Orders
+            </a>
+<!--
+            <a href="#">
+                <i class="bi bi-people-fill"></i>
+                Users
+            </a>
+
+            <a href="#" onclick="openAddBankModal()">
+                <i class="bi bi-hospital"></i>
+                Add Blood Bank
+            </a>
+-->
+            <a href="reports.html">
+                <i class="bi bi-bar-chart-fill"></i>
+                Reports
+            </a>
+
+            <a href="settings.html">
+                <i class="bi bi-gear-fill"></i>
+                Settings
+            </a>
+
+            <a href="login.html" class="logout" onclick="logoutAdmin()">
+                <i class="bi bi-box-arrow-right"></i>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- =================================================
+             TOPBAR
+        ================================================== -->
+
+        <div class="topbar">
+
+            <div class="topbar-left">
+
+                <button class="menu-btn" id="menuBtn">
+                    <i class="bi bi-list"></i>
+                </button>
+
+                <div>
+                    <h4>Blood Banks</h4>
+                </div>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <div class="notification">
+                    <i class="bi bi-bell"></i>
+                    <span>3</span>
+                </div>
+
+                <i class="bi bi-person-circle fs-4 text-secondary"></i>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             PAGE CONTENT
+        ================================================== -->
+
+        <div class="page-content">
+
+
+            <!-- PAGE HEADING -->
+
+            <div class="page-heading">
+
+                <div>
+
+                    <h3>Blood Banks Management</h3>
+
+                    <p>
+                        Manage registered blood banks and their information.
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="btn btn-danger"
+                    onclick="openAddBankModal()">
+
+                    <i class="bi bi-plus-lg me-1"></i>
+
+                    Add Blood Bank
+
+                </button>
+
+            </div>
+
+
+            <!-- =================================================
+                 STATISTICS
+            ================================================== -->
+
+            <div class="row g-3">
+
+
+                <div class="col-lg-3 col-md-6">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            <i class="bi bi-hospital"></i>
+                        </div>
+
+                        <div>
+
+                            <h4 id="totalBanks">
+                                24
+                            </h4>
+
+                            <p>Total Blood Banks</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-lg-3 col-md-6">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            <i class="bi bi-check-circle"></i>
+                        </div>
+
+                        <div>
+
+                            <h4 id="activeBanks">
+                                22
+                            </h4>
+
+                            <p>Active Banks</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-lg-3 col-md-6">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            <i class="bi bi-pause-circle"></i>
+                        </div>
+
+                        <div>
+
+                            <h4 id="inactiveBanks">
+                                2
+                            </h4>
+
+                            <p>Inactive Banks</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-lg-3 col-md-6">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            <i class="bi bi-geo-alt"></i>
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                3
+                            </h4>
+
+                            <p>Valley Areas</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 SEARCH AND FILTER
+            ================================================== -->
+
+            <div class="filter-box">
+
+                <div class="row g-3 align-items-end">
+
+
+                    <div class="col-lg-5">
+
+                        <label class="form-label">
+                            Search Blood Bank
+                        </label>
+
+                        <div class="search-box">
+
+                            <i class="bi bi-search"></i>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="searchInput"
+                                placeholder="Search by name, location or phone..."
+                                onkeyup="searchBanks()">
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-lg-3">
+
+                        <label class="form-label">
+                            Location
+                        </label>
+
+                        <select
+                            class="form-select"
+                            id="locationFilter"
+                            onchange="filterBanks()">
+
+                            <option value="all">
+                                All Locations
+                            </option>
+
+                            <option value="Kathmandu">
+                                Kathmandu
+                            </option>
+
+                            <option value="Lalitpur">
+                                Lalitpur
+                            </option>
+
+                            <option value="Bhaktapur">
+                                Bhaktapur
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-lg-3">
+
+                        <label class="form-label">
+                            Status
+                        </label>
+
+                        <select
+                            class="form-select"
+                            id="statusFilter"
+                            onchange="filterBanks()">
+
+                            <option value="all">
+                                All Status
+                            </option>
+
+                            <option value="Active">
+                                Active
+                            </option>
+
+                            <option value="Inactive">
+                                Inactive
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-lg-1">
+
+                        <button
+                            class="btn btn-secondary w-100"
+                            onclick="resetFilters()"
+                            title="Reset">
+
+                            <i class="bi bi-arrow-clockwise"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 BLOOD BANK TABLE
+            ================================================== -->
+
+            <div class="table-card">
+
+                <div class="table-header">
+
+                    <h5>
+                        Registered Blood Banks
+                    </h5>
+
+                    <span class="text-muted small">
+                        <span id="bankCount">6</span> banks shown
+                    </span>
+
+                </div>
+
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Blood Bank
+                                </th>
+
+                                <th>
+                                    Location
+                                </th>
+
+                                <th>
+                                    Contact
+                                </th>
+
+                                <th>
+                                    Blood Groups
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Actions
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="bankTableBody">
+
+
+                            <!-- BANK 1 -->
+
+                            <tr
+                                data-name="Nepal Red Cross Society Blood Bank"
+                                data-location="Kathmandu"
+                                data-status="Active">
+
+                                <td>
+
+                                    <div class="d-flex align-items-center">
+
+                                        <span class="bank-icon">
+                                            <i class="bi bi-hospital"></i>
+                                        </span>
+
+                                        <div>
+
+                                            <div class="bank-name">
+                                                Nepal Red Cross Society Blood Bank
+                                            </div>
+
+                                            <small class="text-muted">
+                                                ID: BB001
+                                            </small>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+                                    <i class="bi bi-geo-alt text-danger"></i>
+                                    Kathmandu
+                                </td>
+
+
+                                <td>
+                                    <i class="bi bi-telephone me-1"></i>
+                                    01-4228094
+                                </td>
+
+
+                                <td>
+                                    <span class="badge bg-danger">A+</span>
+                                    <span class="badge bg-danger">A-</span>
+                                    <span class="badge bg-danger">B+</span>
+                                    <span class="badge bg-danger">O+</span>
+                                </td>
+
+
+                                <td>
+
+                                    <span class="status-badge status-active">
+                                        Active
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <button
+                                        class="action-btn view-btn"
+                                        onclick="viewBank('Nepal Red Cross Society Blood Bank')"
+                                        title="View">
+
+                                        <i class="bi bi-eye"></i>
+
+                                    </button>
+
+
+                                    <button
+                                        class="action-btn edit-btn"
+                                        onclick="editBank('Nepal Red Cross Society Blood Bank')"
+                                        title="Edit">
+
+                                        <i class="bi bi-pencil"></i>
+
+                                    </button>
+
+
+                                    <button
+                                        class="action-btn delete-btn"
+                                        onclick="deleteBank(this)"
+                                        title="Delete">
+
+                                        <i class="bi bi-trash"></i>
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- BANK 2 -->
+
+                            <tr
+                                data-name="Kathmandu Medical College Blood Bank"
+                                data-location="Kathmandu"
+                                data-status="Active">
+
+                                <td>
+
+                                    <div class="d-flex align-items-center">
+
+                                        <span class="bank-icon">
+                                            <i class="bi bi-hospital"></i>
+                                        </span>
+
+                                        <div>
+
+                                            <div class="bank-name">
+                                                Kathmandu Medical College Blood Bank
+                                            </div>
+
+                                            <small class="text-muted">
+                                                ID: BB002
+                                            </small>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+                                    <i class="bi bi-geo-alt text-danger"></i>
+                                    Kathmandu
+                                </td>
+
+
+                                <td>
+                                    <i class="bi bi-telephone me-1"></i>
+                                    01-4476152
+                                </td>
+
+
+                                <td>
+                                    <span class="badge bg-danger">A+</span>
+                                    <span class="badge bg-danger">B+</span>
+                                    <span class="badge bg-danger">AB+</span>
+                                    <span class="badge bg-danger">O+</span>
+                                </td>
+
+
+                                <td>
+
+                                    <span class="status-badge status-active">
+                                        Active
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <button
+                                        class="action-btn view-btn"
+                                        onclick="viewBank('Kathmandu Medical College Blood Bank')">
+
+                                        <i class="bi bi-eye"></i>
+
+                                    </button>
+
+                                    <button
+                                        class="action-btn edit-btn"
+                                        onclick="editBank('Kathmandu Medical College Blood Bank')">
+
+                                        <i class="bi bi-pencil"></i>
+
+                                    </button>
+
+                                    <button
+                                        class="action-btn delete-btn"
+                                        onclick="deleteBank(this)">
+
+                                        <i class="bi bi-trash"></i>
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- BANK 3 -->
+
+                            <tr
+                                data-name="Teaching Hospital Blood Bank"
+                                data-location="Kathmandu"
+                                data-status="Active">
+
+                                <td>
+
+                                    <div class="d-flex align-items-center">
+
+                                        <span class="bank-icon">
+                                            <i class="bi bi-hospital"></i>
+                                        </span>
+
+                                        <div>
+
+                                            <div class="bank-name">
+                                                Teaching Hospital Blood Bank
+                                            </div>
+
+                                            <small class="text-muted">
+                                                ID: BB003
+                                            </small>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+                                    <i class="bi bi-geo-alt text-danger"></i>
+                                    Maharajgunj, Kathmandu
+                                </td>
+
+
+                                <td>
+                                    <i class="bi bi-telephone me-1"></i>
+                                    01-4412303
+                                </td>
+
+
+                                <td>
+                                    <span class="badge bg-danger">A+</span>
+                                    <span class="badge bg-danger">A-</span>
+                                    <span class="badge bg-danger">B+</span>
+                                    <span class="badge bg-danger">AB+</span>
+                                </td>
+
+
+                                <td>
+
+                                    <span class="status-badge status-active">
+                                        Active
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <button
+                                        class="action-btn view-btn"
+                                        onclick="viewBank('Teaching Hospital Blood Bank')">
+
+                                        <i class="bi bi-eye"></i>
+
+                                    </button>
+
+                                    <button
+                                        class="action-btn edit-btn"
+                                        onclick="editBank('Teaching Hospital Blood Bank')">
+
+                                        <i class="bi bi-pencil"></i>
+
+                                    </button>
+
+                                    <button
+                                        class="action-btn delete-btn"
+                                        onclick="deleteBank(this)">
+
+                                        <i class="bi bi-trash"></i>
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- BANK 4 -->
+
+                            <tr
+                                data-name="Patan Hospital Blood Bank"
+                                data-location="Lalitpur"
+                                data-status="Active">
+
+                                <td>
+
+                                    <div class="d-flex align-items-center">
+
+                                        <span class="bank-icon">
+                                            <i class="bi bi-hospital"></i>
+                                        </span>
+
+                                        <div>
+
+                                            <div class="bank-name">
+                                                Patan Hospital Blood Bank
+                                            </div>
+
+                                            <small class="text-muted">
+                                                ID: BB004
+                                            </small>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+                                    <i class="bi bi-geo-alt text-danger"></i>
+                                    Lagankhel, Lalitpur
+                                </td>
+
+
+                                <td>
+                                    <i class="bi bi-telephone me-1"></i>
+                                    01-5522295
+                                </td>
+
+
+                                <td>
+                                    <span class="badge bg-danger">A+</span>
+                                    <span class="badge bg-danger">B+</span>
+                                    <span class="badge bg-danger">B-</span>
+                                    <span class="badge bg-danger">O+</span>
+                                </td>
+
+
+                                <td>
+
+                                    <span class="status-badge status-active">
+                                        Active
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <button
+                                        class="action-btn view-btn"
+                                        onclick="viewBank('Patan Hospital Blood Bank')">
+
+                                        <i class="bi bi-eye"></i>
+
+                                    </button>
+
+                                    <button
+                                        class="action-btn edit-btn"
+                                        onclick="editBank('Patan Hospital Blood Bank')">
+
+                                        <i class="bi bi-pencil"></i>
+
+                                    </button>
+
+                                    <button
+                                        class="action-btn delete-btn"
+                                        onclick="deleteBank(this)">
+
+                                        <i class="bi bi-trash"></i>
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- BANK 5 -->
+
+                            <tr
+                                data-name="Bhaktapur Blood Bank"
+                                data-location="Bhaktapur"
+                                data-status="Active">
+
+                                <td>
+
+                                    <div class="d-flex align-items-center">
+
+                                        <span class="bank-icon">
+                                            <i class="bi bi-hospital"></i>
+                                        </span>
+
+                                        <div>
+
+                                            <div class="bank-name">
+                                                Bhaktapur Blood Bank
+                                            </div>
+
+                                            <small class="text-muted">
+                                                ID: BB005
+                                            </small>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+                                    <i class="bi bi-geo-alt text-danger"></i>
+                                    Bhaktapur
+                                </td>
+
+
+                                <td>
+                                    <i class="bi bi-telephone me-1"></i>
+                                    01-6611661
+                                </td>
+
+
+                                <td>
+                                    <span class="badge bg-danger">A+</span>
+                                    <span class="badge bg-danger">A-</span>
+                                    <span class="badge bg-danger">B+</span>
+                                    <span class="badge bg-danger">O+</span>
+                                </td>
+
+
+                                <td>
+
+                                    <span class="status-badge status-active">
+                                        Active
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <button
+                                        class="action-btn view-btn"
+                                        onclick="viewBank('Bhaktapur Blood Bank')">
+
+                                        <i class="bi bi-eye"></i>
+
+                                    </button>
+
+                                    <button
+                                        class="action-btn edit-btn"
+                                        onclick="editBank('Bhaktapur Blood Bank')">
+
+                                        <i class="bi bi-pencil"></i>
+
+                                    </button>
+
+                                    <button
+                                        class="action-btn delete-btn"
+                                        onclick="deleteBank(this)">
+
+                                        <i class="bi bi-trash"></i>
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- BANK 6 -->
+
+                            <tr
+                                data-name="Nepal Police Hospital Blood Bank"
+                                data-location="Kathmandu"
+                                data-status="Inactive">
+
+                                <td>
+
+                                    <div class="d-flex align-items-center">
+
+                                        <span class="bank-icon">
+                                            <i class="bi bi-hospital"></i>
+                                        </span>
+
+                                        <div>
+
+                                            <div class="bank-name">
+                                                Nepal Police Hospital Blood Bank
+                                            </div>
+
+                                            <small class="text-muted">
+                                                ID: BB006
+                                            </small>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+                                    <i class="bi bi-geo-alt text-danger"></i>
+                                    Maharajgunj, Kathmandu
+                                </td>
+
+
+                                <td>
+                                    <i class="bi bi-telephone me-1"></i>
+                                    01-4412430
+                                </td>
+
+
+                                <td>
+                                    <span class="badge bg-danger">A+</span>
+                                    <span class="badge bg-danger">B+</span>
+                                    <span class="badge bg-danger">AB+</span>
+                                    <span class="badge bg-danger">O+</span>
+                                </td>
+
+
+                                <td>
+
+                                    <span class="status-badge status-inactive">
+                                        Inactive
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <button
+                                        class="action-btn view-btn"
+                                        onclick="viewBank('Nepal Police Hospital Blood Bank')">
+
+                                        <i class="bi bi-eye"></i>
+
+                                    </button>
+
+                                    <button
+                                        class="action-btn edit-btn"
+                                        onclick="editBank('Nepal Police Hospital Blood Bank')">
+
+                                        <i class="bi bi-pencil"></i>
+
+                                    </button>
+
+                                    <button
+                                        class="action-btn delete-btn"
+                                        onclick="deleteBank(this)">
+
+                                        <i class="bi bi-trash"></i>
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         ADD BLOOD BANK MODAL
+    ====================================================== -->
+
+    <div
+        class="modal fade"
+        id="addBankModal"
+        tabindex="-1"
+        aria-hidden="true">
+
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title">
+
+                        <i class="bi bi-hospital me-2"></i>
+
+                        Add Blood Bank
+
+                    </h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                    </button>
+
+                </div>
+
+
+                <form id="addBankForm">
+
+                    <div class="modal-body">
+
+                        <div class="row g-3">
+
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    Blood Bank Name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="bankName"
+                                    placeholder="Enter blood bank name"
+                                    required>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    Contact Number
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="bankPhone"
+                                    placeholder="Enter phone number"
+                                    required>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    Location
+                                </label>
+
+                                <select
+                                    class="form-select"
+                                    id="bankLocation"
+                                    required>
+
+                                    <option value="">
+                                        Select location
+                                    </option>
+
+                                    <option value="Kathmandu">
+                                        Kathmandu
+                                    </option>
+
+                                    <option value="Lalitpur">
+                                        Lalitpur
+                                    </option>
+
+                                    <option value="Bhaktapur">
+                                        Bhaktapur
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    Address
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="bankAddress"
+                                    placeholder="Enter full address"
+                                    required>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    Email
+                                </label>
+
+                                <input
+                                    type="email"
+                                    class="form-control"
+                                    id="bankEmail"
+                                    placeholder="Enter email address">
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    Opening Hours
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="bankHours"
+                                    placeholder="e.g. 24 Hours">
+
+                            </div>
+
+
+                            <div class="col-12">
+
+                                <label class="form-label d-block">
+                                    Available Blood Groups
+                                </label>
+
+
+                                <div class="blood-type-check">
+
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="A+"
+                                        id="aPositive">
+
+                                    <label
+                                        class="form-check-label"
+                                        for="aPositive">
+
+                                        A+
+
+                                    </label>
+
+                                </div>
+
+
+                                <div class="blood-type-check">
+
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="A-"
+                                        id="aNegative">
+
+                                    <label
+                                        class="form-check-label"
+                                        for="aNegative">
+
+                                        A-
+
+                                    </label>
+
+                                </div>
+
+
+                                <div class="blood-type-check">
+
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="B+"
+                                        id="bPositive">
+
+                                    <label
+                                        class="form-check-label"
+                                        for="bPositive">
+
+                                        B+
+
+                                    </label>
+
+                                </div>
+
+
+                                <div class="blood-type-check">
+
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="B-"
+                                        id="bNegative">
+
+                                    <label
+                                        class="form-check-label"
+                                        for="bNegative">
+
+                                        B-
+
+                                    </label>
+
+                                </div>
+
+
+                                <div class="blood-type-check">
+
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="AB+"
+                                        id="abPositive">
+
+                                    <label
+                                        class="form-check-label"
+                                        for="abPositive">
+
+                                        AB+
+
+                                    </label>
+
+                                </div>
+
+
+                                <div class="blood-type-check">
+
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="AB-"
+                                        id="abNegative">
+
+                                    <label
+                                        class="form-check-label"
+                                        for="abNegative">
+
+                                        AB-
+
+                                    </label>
+
+                                </div>
+
+
+                                <div class="blood-type-check">
+
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="O+"
+                                        id="oPositive">
+
+                                    <label
+                                        class="form-check-label"
+                                        for="oPositive">
+
+                                        O+
+
+                                    </label>
+
+                                </div>
+
+
+                                <div class="blood-type-check">
+
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="O-"
+                                        id="oNegative">
+
+                                    <label
+                                        class="form-check-label"
+                                        for="oNegative">
+
+                                        O-
+
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    Status
+                                </label>
+
+                                <select
+                                    class="form-select"
+                                    id="bankStatus">
+
+                                    <option value="Active">
+                                        Active
+                                    </option>
+
+                                    <option value="Inactive">
+                                        Inactive
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="modal-footer">
+
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+
+                            Cancel
+
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-danger">
+
+                            <i class="bi bi-plus-lg me-1"></i>
+
+                            Add Blood Bank
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         VIEW BLOOD BANK MODAL
+    ====================================================== -->
+
+    <div
+        class="modal fade"
+        id="viewBankModal"
+        tabindex="-1">
+
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title">
+                        <i class="bi bi-hospital me-2"></i>
+                        Blood Bank Details
+                    </h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                    </button>
+
+                </div>
+
+
+                <div class="modal-body">
+
+                    <div class="text-center mb-4">
+
+                        <div
+                            class="bank-icon mx-auto"
+                            style="width:70px;height:70px;font-size:30px;">
+
+                            <i class="bi bi-hospital"></i>
+
+                        </div>
+
+                        <h4 id="viewBankName" class="mt-3 mb-1">
+                            Blood Bank
+                        </h4>
+
+                        <span class="status-badge status-active">
+                            Active
+                        </span>
+
+                    </div>
+
+
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+
+                            <div class="border rounded p-3">
+
+                                <small class="text-muted">
+                                    Location
+                                </small>
+
+                                <div class="fw-semibold mt-1">
+                                    <i class="bi bi-geo-alt text-danger"></i>
+                                    Kathmandu
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <div class="border rounded p-3">
+
+                                <small class="text-muted">
+                                    Contact
+                                </small>
+
+                                <div class="fw-semibold mt-1">
+                                    <i class="bi bi-telephone text-danger"></i>
+                                    01-4100000
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <div class="border rounded p-3">
+
+                                <small class="text-muted">
+                                    Email
+                                </small>
+
+                                <div class="fw-semibold mt-1">
+                                    <i class="bi bi-envelope text-danger"></i>
+                                    bloodbank@example.com
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <div class="border rounded p-3">
+
+                                <small class="text-muted">
+                                    Opening Hours
+                                </small>
+
+                                <div class="fw-semibold mt-1">
+                                    <i class="bi bi-clock text-danger"></i>
+                                    24 Hours
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-12">
+
+                            <div class="border rounded p-3">
+
+                                <small class="text-muted">
+                                    Available Blood Groups
+                                </small>
+
+                                <div class="mt-2">
+
+                                    <span class="badge bg-danger me-1">
+                                        A+
+                                    </span>
+
+                                    <span class="badge bg-danger me-1">
+                                        A-
+                                    </span>
+
+                                    <span class="badge bg-danger me-1">
+                                        B+
+                                    </span>
+
+                                    <span class="badge bg-danger me-1">
+                                        B-
+                                    </span>
+
+                                    <span class="badge bg-danger me-1">
+                                        AB+
+                                    </span>
+
+                                    <span class="badge bg-danger me-1">
+                                        O+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+
+                        Close
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         BOOTSTRAP JS
+    ====================================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+
+        /* =====================================================
+           SIDEBAR MOBILE
+        ====================================================== */
+
+        const menuBtn = document.getElementById("menuBtn");
+        const sidebar = document.getElementById("sidebar");
+        const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+        menuBtn.addEventListener("click", function () {
+
+            sidebar.classList.toggle("show");
+            sidebarOverlay.classList.toggle("show");
+
+        });
+
+
+        sidebarOverlay.addEventListener("click", function () {
+
+            sidebar.classList.remove("show");
+            sidebarOverlay.classList.remove("show");
+
+        });
+
+
+        /* =====================================================
+           ADD BLOOD BANK MODAL
+        ====================================================== */
+
+        function openAddBankModal() {
+
+            const modal = new bootstrap.Modal(
+                document.getElementById("addBankModal")
+            );
+
+            modal.show();
+
+        }
+
+
+        /* =====================================================
+           SEARCH BLOOD BANKS
+        ====================================================== */
+
+        function searchBanks() {
+
+            filterBanks();
+
+        }
+
+
+        /* =====================================================
+           FILTER BLOOD BANKS
+        ====================================================== */
+
+        function filterBanks() {
+
+            const searchValue =
+                document.getElementById("searchInput")
+                .value
+                .toLowerCase();
+
+            const locationValue =
+                document.getElementById("locationFilter")
+                .value;
+
+            const statusValue =
+                document.getElementById("statusFilter")
+                .value;
+
+            const rows =
+                document.querySelectorAll(
+                    "#bankTableBody tr"
+                );
+
+            let visibleCount = 0;
+
+
+            rows.forEach(function(row) {
+
+                const name =
+                    row.dataset.name.toLowerCase();
+
+                const location =
+                    row.dataset.location;
+
+                const status =
+                    row.dataset.status;
+
+
+                const matchesSearch =
+                    name.includes(searchValue) ||
+                    location.toLowerCase().includes(searchValue);
+
+
+                const matchesLocation =
+                    locationValue === "all" ||
+                    location === locationValue;
+
+
+                const matchesStatus =
+                    statusValue === "all" ||
+                    status === statusValue;
+
+
+                if (
+                    matchesSearch &&
+                    matchesLocation &&
+                    matchesStatus
+                ) {
+
+                    row.style.display = "";
+                    visibleCount++;
+
+                } else {
+
+                    row.style.display = "none";
+
+                }
+
+            });
+
+
+            document.getElementById("bankCount").textContent =
+                visibleCount;
+
+        }
+
+
+        /* =====================================================
+           RESET FILTERS
+        ====================================================== */
+
+        function resetFilters() {
+
+            document.getElementById("searchInput").value = "";
+
+            document.getElementById("locationFilter").value = "all";
+
+            document.getElementById("statusFilter").value = "all";
+
+            filterBanks();
+
+        }
+
+
+        /* =====================================================
+           VIEW BLOOD BANK
+        ====================================================== */
+
+        function viewBank(bankName) {
+
+            document.getElementById("viewBankName").textContent =
+                bankName;
+
+            const modal = new bootstrap.Modal(
+                document.getElementById("viewBankModal")
+            );
+
+            modal.show();
+
+        }
+
+
+        /* =====================================================
+           EDIT BLOOD BANK
+        ====================================================== */
+
+        function editBank(bankName) {
+
+            alert(
+                "Edit Blood Bank:\n\n" +
+                bankName +
+                "\n\nThe edit form can be connected to your database later."
+            );
+
+        }
+
+
+        /* =====================================================
+           DELETE BLOOD BANK
+        ====================================================== */
+
+        function deleteBank(button) {
+
+            const row = button.closest("tr");
+
+            const bankName =
+                row.dataset.name;
+
+
+            const confirmDelete =
+                confirm(
+                    "Are you sure you want to delete:\n\n" +
+                    bankName +
+                    "?"
+                );
+
+
+            if (confirmDelete) {
+
+                row.remove();
+
+                filterBanks();
+
+                updateStatistics();
+
+                alert(
+                    "Blood bank deleted successfully."
+                );
+
+            }
+
+        }
+
+
+        /* =====================================================
+           UPDATE STATISTICS
+        ====================================================== */
+
+        function updateStatistics() {
+
+            const rows =
+                document.querySelectorAll(
+                    "#bankTableBody tr"
+                );
+
+
+            let total = rows.length;
+            let active = 0;
+            let inactive = 0;
+
+
+            rows.forEach(function(row) {
+
+                if (row.dataset.status === "Active") {
+
+                    active++;
+
+                }
+
+                if (row.dataset.status === "Inactive") {
+
+                    inactive++;
+
+                }
+
+            });
+
+
+            document.getElementById("totalBanks").textContent =
+                total;
+
+            document.getElementById("activeBanks").textContent =
+                active;
+
+            document.getElementById("inactiveBanks").textContent =
+                inactive;
+
+        }
+
+
+        /* =====================================================
+           ADD BLOOD BANK FORM
+        ====================================================== */
+
+        document
+            .getElementById("addBankForm")
+            .addEventListener("submit", function(event) {
+
+                event.preventDefault();
+
+
+                const bankName =
+                    document.getElementById("bankName").value.trim();
+
+                const phone =
+                    document.getElementById("bankPhone").value.trim();
+
+                const location =
+                    document.getElementById("bankLocation").value;
+
+                const address =
+                    document.getElementById("bankAddress").value.trim();
+
+                const status =
+                    document.getElementById("bankStatus").value;
+
+
+                if (
+                    bankName === "" ||
+                    phone === "" ||
+                    location === "" ||
+                    address === ""
+                ) {
+
+                    alert(
+                        "Please fill all required fields."
+                    );
+
+                    return;
+
+                }
+
+
+                const tableBody =
+                    document.getElementById("bankTableBody");
+
+
+                const bankNumber =
+                    tableBody.querySelectorAll("tr").length + 1;
+
+
+                const bankId =
+                    "BB" +
+                    String(bankNumber).padStart(3, "0");
+
+
+                const statusClass =
+                    status === "Active"
+                        ? "status-active"
+                        : "status-inactive";
+
+
+                const bloodGroups = [
+                    "A+",
+                    "B+",
+                    "O+"
+                ];
+
+
+                const newRow =
+                    document.createElement("tr");
+
+
+                newRow.dataset.name =
+                    bankName;
+
+                newRow.dataset.location =
+                    location;
+
+                newRow.dataset.status =
+                    status;
+
+
+                newRow.innerHTML = `
+
+                    <td>
+
+                        <div class="d-flex align-items-center">
+
+                            <span class="bank-icon">
+
+                                <i class="bi bi-hospital"></i>
+
+                            </span>
+
+                            <div>
+
+                                <div class="bank-name">
+                                    ${bankName}
+                                </div>
+
+                                <small class="text-muted">
+                                    ID: ${bankId}
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+
+                    <td>
+
+                        <i class="bi bi-geo-alt text-danger"></i>
+
+                        ${location}
+
+                    </td>
+
+
+                    <td>
+
+                        <i class="bi bi-telephone me-1"></i>
+
+                        ${phone}
+
+                    </td>
+
+
+                    <td>
+
+                        ${bloodGroups.map(group =>
+
+                            `<span class="badge bg-danger me-1">
+                                ${group}
+                            </span>`
+
+                        ).join("")}
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="status-badge ${statusClass}">
+
+                            ${status}
+
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        <button
+                            class="action-btn view-btn"
+                            onclick="viewBank('${bankName}')">
+
+                            <i class="bi bi-eye"></i>
+
+                        </button>
+
+
+                        <button
+                            class="action-btn edit-btn"
+                            onclick="editBank('${bankName}')">
+
+                            <i class="bi bi-pencil"></i>
+
+                        </button>
+
+
+                        <button
+                            class="action-btn delete-btn"
+                            onclick="deleteBank(this)">
+
+                            <i class="bi bi-trash"></i>
+
+                        </button>
+
+                    </td>
+
+                `;
+
+
+                tableBody.appendChild(newRow);
+
+
+                updateStatistics();
+
+                filterBanks();
+
+
+                document
+                    .getElementById("addBankForm")
+                    .reset();
+
+
+                const modal =
+                    bootstrap.Modal.getInstance(
+                        document.getElementById("addBankModal")
+                    );
+
+
+                modal.hide();
+
+
+                alert(
+                    "Blood bank added successfully."
+                );
+
+            });
+
+
+        /* =====================================================
+           LOGOUT
+        ====================================================== */
+
+        function logoutAdmin() {
+
+            const confirmLogout =
+                confirm(
+                    "Are you sure you want to logout?"
+                );
+
+
+            if (confirmLogout) {
+
+                localStorage.removeItem(
+                    "adminLoggedIn"
+                );
+
+                sessionStorage.removeItem(
+                    "adminLoggedIn"
+                );
+
+                window.location.href =
+                    "admin-login.html";
+
+            }
+
+        }
+
+
+        /* =====================================================
+           INITIAL COUNT
+        ====================================================== */
+
+        filterBanks();
+
+    </script>
+
+</body>
+
+</html>

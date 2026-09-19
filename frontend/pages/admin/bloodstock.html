@@ -1,0 +1,3053 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Blood Stock </title>
+    <link rel="icon" type="image/png" href="../../images/blood_logo.png">
+
+    <!-- Bootstrap 5 -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet">
+
+
+    <style>
+
+        /* =====================================================
+           GENERAL
+        ====================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f6fa;
+            color: #333;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+        ====================================================== */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: linear-gradient(180deg, #b30000, #e00000);
+            color: white;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            padding: 22px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-logo img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            background: white;
+            border-radius: 50%;
+            padding: 5px;
+        }
+
+        .sidebar-logo h4 {
+            margin: 0;
+            font-size: 21px;
+            font-weight: bold;
+        }
+
+
+        /* =====================================================
+           ADMIN PROFILE
+        ====================================================== */
+
+        .admin-profile {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .admin-profile .admin-icon {
+            width: 65px;
+            height: 65px;
+            background: white;
+            color: #d00000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            font-size: 30px;
+        }
+
+        .admin-profile h6 {
+            margin-top: 10px;
+            margin-bottom: 3px;
+            font-size: 16px;
+        }
+
+        .admin-profile small {
+            opacity: 0.85;
+        }
+
+
+        /* =====================================================
+           SIDEBAR MENU
+        ====================================================== */
+
+        .sidebar-menu {
+            padding: 15px 10px;
+        }
+
+        .sidebar-menu a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 12px 15px;
+            border-radius: 7px;
+            margin-bottom: 5px;
+            transition: 0.3s;
+            font-size: 15px;
+        }
+
+        .sidebar-menu a i {
+            font-size: 18px;
+            width: 22px;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: rgba(255,255,255,0.18);
+        }
+
+        .sidebar-menu .logout {
+            margin-top: 20px;
+            background: rgba(0,0,0,0.15);
+        }
+
+
+        /* =====================================================
+           MAIN CONTENT
+        ====================================================== */
+
+        .main-content {
+            margin-left: 250px;
+            min-height: 100vh;
+        }
+
+
+        /* =====================================================
+           TOPBAR
+        ====================================================== */
+
+        .topbar {
+            height: 75px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            border-bottom: 1px solid #e5e5e5;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .topbar-left h4 {
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .menu-btn {
+            display: none;
+            border: none;
+            background: #d00000;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            font-size: 20px;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .notification {
+            position: relative;
+            font-size: 21px;
+            color: #555;
+            cursor: pointer;
+        }
+
+        .notification span {
+            position: absolute;
+            top: -7px;
+            right: -8px;
+            background: #d00000;
+            color: white;
+            width: 17px;
+            height: 17px;
+            border-radius: 50%;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        /* =====================================================
+           PAGE CONTENT
+        ====================================================== */
+
+        .page-content {
+            padding: 30px;
+        }
+
+        .page-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .page-heading h3 {
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .page-heading p {
+            margin: 5px 0 0;
+            color: #777;
+            font-size: 14px;
+        }
+
+        .btn-danger {
+            background: #d00000;
+            border-color: #d00000;
+        }
+
+        .btn-danger:hover {
+            background: #a80000;
+            border-color: #a80000;
+        }
+
+
+        /* =====================================================
+           STAT CARDS
+        ====================================================== */
+
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #e8e8e8;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .stat-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffe5e5;
+            color: #d00000;
+            font-size: 25px;
+        }
+
+        .stat-card h4 {
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .stat-card p {
+            margin: 3px 0 0;
+            color: #777;
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           FILTER BOX
+        ====================================================== */
+
+        .filter-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #e5e5e5;
+            margin-top: 25px;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        .search-box input {
+            padding-left: 40px;
+        }
+
+
+        /* =====================================================
+           STOCK TABLE
+        ====================================================== */
+
+        .table-card {
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #e5e5e5;
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid #e5e5e5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-header h5 {
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            background: #fafafa;
+            color: #555;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 15px;
+            white-space: nowrap;
+        }
+
+        .table tbody td {
+            padding: 15px;
+            vertical-align: middle;
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           BLOOD GROUP
+        ====================================================== */
+
+        .blood-group {
+            width: 48px;
+            height: 48px;
+            background: #d00000;
+            color: white;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+
+        /* =====================================================
+           STOCK BAR
+        ====================================================== */
+
+        .stock-wrapper {
+            min-width: 150px;
+        }
+
+        .stock-number {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .progress {
+            height: 7px;
+            border-radius: 10px;
+            background: #eeeeee;
+        }
+
+        .progress-bar {
+            background: #d00000;
+        }
+
+        .progress-bar.low {
+            background: #dc3545;
+        }
+
+        .progress-bar.medium {
+            background: #ffc107;
+        }
+
+        .progress-bar.good {
+            background: #198754;
+        }
+
+
+        /* =====================================================
+           STATUS
+        ====================================================== */
+
+        .stock-status {
+            padding: 6px 11px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-good {
+            background: #dff7e8;
+            color: #198754;
+        }
+
+        .status-medium {
+            background: #fff3cd;
+            color: #997404;
+        }
+
+        .status-low {
+            background: #ffe1e1;
+            color: #dc3545;
+        }
+
+        .status-out {
+            background: #343a40;
+            color: white;
+        }
+
+
+        /* =====================================================
+           ACTION BUTTONS
+        ====================================================== */
+
+        .action-btn {
+            width: 34px;
+            height: 34px;
+            border: none;
+            border-radius: 6px;
+            margin-right: 4px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .update-btn {
+            background: #e8f1ff;
+            color: #0d6efd;
+        }
+
+        .delete-btn {
+            background: #ffe1e1;
+            color: #dc3545;
+        }
+
+        .action-btn:hover {
+            opacity: 0.75;
+        }
+
+
+        /* =====================================================
+           MODAL
+        ====================================================== */
+
+        .modal-header {
+            background: #d00000;
+            color: white;
+        }
+
+        .modal-header .btn-close {
+            filter: brightness(0) invert(1);
+        }
+
+        .form-label {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           MOBILE SIDEBAR
+        ====================================================== */
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            z-index: 999;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+
+        @media (max-width: 991px) {
+
+            .sidebar {
+                left: -250px;
+                transition: 0.3s;
+            }
+
+            .sidebar.show {
+                left: 0;
+            }
+
+            .sidebar-overlay.show {
+                display: block;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .menu-btn {
+                display: block;
+            }
+
+            .page-content {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .topbar-left h4 {
+                font-size: 18px;
+            }
+
+            .page-heading .btn {
+                width: 100%;
+            }
+
+            .filter-box {
+                padding: 15px;
+            }
+
+            .table-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         SIDEBAR OVERLAY
+    ====================================================== -->
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar" id="sidebar">
+
+
+        <div class="sidebar-logo">
+
+            <img
+                src="../../images/blood_logo.png"
+                alt="BloodConnect Logo">
+
+            <h4>BloodConnect</h4>
+
+        </div>
+
+
+        <div class="admin-profile">
+
+            <div class="admin-icon">
+
+                <i class="bi bi-person-fill"></i>
+
+            </div>
+
+            <h6>Administrator</h6>
+
+            <small>System Admin</small>
+
+        </div>
+
+
+        <div class="sidebar-menu">
+
+
+            <a href="dashboard.html">
+
+                <i class="bi bi-speedometer2"></i>
+
+                Dashboard
+
+            </a>
+
+
+            <a href="bloodbanks.html">
+
+                <i class="bi bi-hospital"></i>
+
+                Blood Banks
+
+            </a>
+
+
+            <a
+                href="bloodstock.html"
+                class="active">
+
+                <i class="bi bi-droplet-fill"></i>
+
+                Blood Stock
+
+            </a>
+
+
+            <a href="orders.html">
+
+                <i class="bi bi-cart-check"></i>
+
+                Blood Orders
+
+            </a>
+
+<!--
+            <a href="#">
+
+                <i class="bi bi-people-fill"></i>
+
+                Users
+
+            </a>
+
+
+            <a href="bloodbanks.html">
+
+                <i class="bi bi-plus-circle"></i>
+
+                Add Blood Bank
+
+            </a>
+
+-->
+            <a href="reports.html">
+
+                <i class="bi bi-bar-chart-fill"></i>
+
+                Reports
+
+            </a>
+
+
+            <a href="settings.html">
+
+                <i class="bi bi-gear-fill"></i>
+
+                Settings
+
+            </a>
+
+
+            <a
+                href="login.html"
+                class="logout"
+                onclick="logoutAdmin()">
+
+                <i class="bi bi-box-arrow-right"></i>
+
+                Logout
+
+            </a>
+
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- =================================================
+             TOPBAR
+        ================================================== -->
+
+        <div class="topbar">
+
+
+            <div class="topbar-left">
+
+                <button
+                    class="menu-btn"
+                    id="menuBtn">
+
+                    <i class="bi bi-list"></i>
+
+                </button>
+
+
+                <h4>Blood Stock</h4>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <div class="notification">
+
+                    <i class="bi bi-bell"></i>
+
+                    <span>3</span>
+
+                </div>
+
+
+                <i class="bi bi-person-circle fs-4 text-secondary"></i>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             PAGE CONTENT
+        ================================================== -->
+
+        <div class="page-content">
+
+
+            <!-- PAGE HEADING -->
+
+            <div class="page-heading">
+
+
+                <div>
+
+                    <h3>
+                        Blood Stock Management
+                    </h3>
+
+                    <p>
+                        Manage and monitor available blood units in blood banks.
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="btn btn-danger"
+                    onclick="openStockModal()">
+
+                    <i class="bi bi-plus-lg me-1"></i>
+
+                    Add Blood Stock
+
+                </button>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 STATISTICS
+            ================================================== -->
+
+            <div class="row g-3">
+
+
+                <!-- TOTAL UNITS -->
+
+                <div class="col-lg-3 col-md-6">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+
+                            <i class="bi bi-droplet-fill"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <h4 id="totalUnits">
+                                197
+                            </h4>
+
+                            <p>
+                                Total Blood Units
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- AVAILABLE -->
+
+                <div class="col-lg-3 col-md-6">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+
+                            <i class="bi bi-check-circle"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <h4>
+                                165
+                            </h4>
+
+                            <p>
+                                Available Units
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- LOW STOCK -->
+
+                <div class="col-lg-3 col-md-6">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+
+                            <i class="bi bi-exclamation-triangle"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <h4>
+                                22
+                            </h4>
+
+                            <p>
+                                Low Stock Units
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- OUT OF STOCK -->
+
+                <div class="col-lg-3 col-md-6">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+
+                            <i class="bi bi-x-circle"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <h4>
+                                10
+                            </h4>
+
+                            <p>
+                                Out of Stock
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 SEARCH AND FILTER
+            ================================================== -->
+
+            <div class="filter-box">
+
+
+                <div class="row g-3 align-items-end">
+
+
+                    <!-- SEARCH -->
+
+                    <div class="col-lg-5">
+
+                        <label class="form-label">
+                            Search Stock
+                        </label>
+
+
+                        <div class="search-box">
+
+                            <i class="bi bi-search"></i>
+
+                            <input
+                                type="text"
+                                id="searchInput"
+                                class="form-control"
+                                placeholder="Search blood bank or blood group..."
+                                onkeyup="filterStock()">
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BLOOD GROUP -->
+
+                    <div class="col-lg-3">
+
+                        <label class="form-label">
+                            Blood Group
+                        </label>
+
+
+                        <select
+                            class="form-select"
+                            id="bloodFilter"
+                            onchange="filterStock()">
+
+                            <option value="all">
+                                All Blood Groups
+                            </option>
+
+                            <option value="A+">
+                                A+
+                            </option>
+
+                            <option value="A-">
+                                A-
+                            </option>
+
+                            <option value="B+">
+                                B+
+                            </option>
+
+                            <option value="B-">
+                                B-
+                            </option>
+
+                            <option value="AB+">
+                                AB+
+                            </option>
+
+                            <option value="AB-">
+                                AB-
+                            </option>
+
+                            <option value="O+">
+                                O+
+                            </option>
+
+                            <option value="O-">
+                                O-
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- STATUS -->
+
+                    <div class="col-lg-3">
+
+                        <label class="form-label">
+                            Stock Status
+                        </label>
+
+
+                        <select
+                            class="form-select"
+                            id="statusFilter"
+                            onchange="filterStock()">
+
+                            <option value="all">
+                                All Status
+                            </option>
+
+                            <option value="Good">
+                                Good
+                            </option>
+
+                            <option value="Medium">
+                                Medium
+                            </option>
+
+                            <option value="Low">
+                                Low
+                            </option>
+
+                            <option value="Out of Stock">
+                                Out of Stock
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- RESET -->
+
+                    <div class="col-lg-1">
+
+                        <button
+                            class="btn btn-secondary w-100"
+                            onclick="resetFilters()"
+                            title="Reset">
+
+                            <i class="bi bi-arrow-clockwise"></i>
+
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 STOCK TABLE
+            ================================================== -->
+
+            <div class="table-card">
+
+
+                <div class="table-header">
+
+                    <h5>
+                        Blood Stock List
+                    </h5>
+
+
+                    <span class="text-muted small">
+
+                        <span id="stockCount">
+                            8
+                        </span>
+
+                        records
+
+                    </span>
+
+                </div>
+
+
+                <div class="table-responsive">
+
+
+                    <table class="table table-hover">
+
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Blood Group
+                                </th>
+
+                                <th>
+                                    Blood Bank
+                                </th>
+
+                                <th>
+                                    Location
+                                </th>
+
+                                <th>
+                                    Available Units
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Last Updated
+                                </th>
+
+                                <th>
+                                    Actions
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="stockTableBody">
+
+
+                            <!-- =================================================
+                                 A+
+                            ================================================== -->
+
+                            <tr
+                                data-group="A+"
+                                data-bank="Nepal Red Cross Society Blood Bank"
+                                data-status="Good">
+
+
+                                <td>
+
+                                    <span class="blood-group">
+                                        A+
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <strong>
+                                        Nepal Red Cross Society Blood Bank
+                                    </strong>
+
+                                </td>
+
+
+                                <td>
+
+                                    <i class="bi bi-geo-alt text-danger"></i>
+
+                                    Kathmandu
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="stock-wrapper">
+
+                                        <div class="stock-number">
+                                            42 Units
+                                        </div>
+
+                                        <div class="progress">
+
+                                            <div
+                                                class="progress-bar good"
+                                                style="width:84%">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="stock-status status-good">
+                                        Good
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+                                    Sep 12, 2026
+                                </td>
+
+
+                                <td>
+
+                                    <button
+                                        class="action-btn update-btn"
+                                        onclick="updateStock(this)"
+                                        title="Update">
+
+                                        <i class="bi bi-pencil"></i>
+
+                                    </button>
+
+
+                                    <button
+                                        class="action-btn delete-btn"
+                                        onclick="deleteStock(this)"
+                                        title="Delete">
+
+                                        <i class="bi bi-trash"></i>
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- =================================================
+                                 A-
+                            ================================================== -->
+
+                            <tr
+                                data-group="A-"
+                                data-bank="Teaching Hospital Blood Bank"
+                                data-status="Low">
+
+
+                                <td>
+
+                                    <span class="blood-group">
+                                        A-
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <strong>
+                                        Teaching Hospital Blood Bank
+                                    </strong>
+
+                                </td>
+
+
+                                <td>
+
+                                    <i class="bi bi-geo-alt text-danger"></i>
+
+                                    Kathmandu
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="stock-wrapper">
+
+                                        <div class="stock-number">
+                                            8 Units
+                                        </div>
+
+                                        <div class="progress">
+
+                                            <div
+                                                class="progress-bar low"
+                                                style="width:16%">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="stock-status status-low">
+                                        Low
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+                                    Sep 12, 2026
+                                </td>
+
+
+                                <td>
+
+                                    <button
+                                        class="action-btn update-btn"
+                                        onclick="updateStock(this)">
+
+                                        <i class="bi bi-pencil"></i>
+
+                                    </button>
+
+
+                                    <button
+                                        class="action-btn delete-btn"
+                                        onclick="deleteStock(this)">
+
+                                        <i class="bi bi-trash"></i>
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- =================================================
+                                 B+
+                            ================================================== -->
+
+                            <tr
+                                data-group="B+"
+                                data-bank="Kathmandu Medical College Blood Bank"
+                                data-status="Good">
+
+
+                                <td>
+
+                                    <span class="blood-group">
+                                        B+
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <strong>
+                                        Kathmandu Medical College Blood Bank
+                                    </strong>
+
+                                </td>
+
+
+                                <td>
+
+                                    <i class="bi bi-geo-alt text-danger"></i>
+
+                                    Kathmandu
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="stock-wrapper">
+
+                                        <div class="stock-number">
+                                            35 Units
+                                        </div>
+
+                                        <div class="progress">
+
+                                            <div
+                                                class="progress-bar good"
+                                                style="width:70%">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="stock-status status-good">
+                                        Good
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+                                    Sep 12, 2026
+                                </td>
+
+
+                                <td>
+
+                                    <button
+                                        class="action-btn update-btn"
+                                        onclick="updateStock(this)">
+
+                                        <i class="bi bi-pencil"></i>
+
+                                    </button>
+
+
+                                    <button
+                                        class="action-btn delete-btn"
+                                        onclick="deleteStock(this)">
+
+                                        <i class="bi bi-trash"></i>
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- =================================================
+                                 B-
+                            ================================================== -->
+
+                            <tr
+                                data-group="B-"
+                                data-bank="Patan Hospital Blood Bank"
+                                data-status="Low">
+
+
+                                <td>
+
+                                    <span class="blood-group">
+                                        B-
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <strong>
+                                        Patan Hospital Blood Bank
+                                    </strong>
+
+                                </td>
+
+
+                                <td>
+
+                                    <i class="bi bi-geo-alt text-danger"></i>
+
+                                    Lalitpur
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="stock-wrapper">
+
+                                        <div class="stock-number">
+                                            6 Units
+                                        </div>
+
+                                        <div class="progress">
+
+                                            <div
+                                                class="progress-bar low"
+                                                style="width:12%">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="stock-status status-low">
+                                        Low
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+                                    Sep 12, 2026
+                                </td>
+
+
+                                <td>
+
+                                    <button
+                                        class="action-btn update-btn"
+                                        onclick="updateStock(this)">
+
+                                        <i class="bi bi-pencil"></i>
+
+                                    </button>
+
+
+                                    <button
+                                        class="action-btn delete-btn"
+                                        onclick="deleteStock(this)">
+
+                                        <i class="bi bi-trash"></i>
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- =================================================
+                                 AB+
+                            ================================================== -->
+
+                            <tr
+                                data-group="AB+"
+                                data-bank="Nepal Police Hospital Blood Bank"
+                                data-status="Medium">
+
+
+                                <td>
+
+                                    <span class="blood-group">
+                                        AB+
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <strong>
+                                        Nepal Police Hospital Blood Bank
+                                    </strong>
+
+                                </td>
+
+
+                                <td>
+
+                                    <i class="bi bi-geo-alt text-danger"></i>
+
+                                    Kathmandu
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="stock-wrapper">
+
+                                        <div class="stock-number">
+                                            15 Units
+                                        </div>
+
+                                        <div class="progress">
+
+                                            <div
+                                                class="progress-bar medium"
+                                                style="width:30%">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="stock-status status-medium">
+                                        Medium
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+                                    Sep 12, 2026
+                                </td>
+
+
+                                <td>
+
+                                    <button
+                                        class="action-btn update-btn"
+                                        onclick="updateStock(this)">
+
+                                        <i class="bi bi-pencil"></i>
+
+                                    </button>
+
+
+                                    <button
+                                        class="action-btn delete-btn"
+                                        onclick="deleteStock(this)">
+
+                                        <i class="bi bi-trash"></i>
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- =================================================
+                                 O+
+                            ================================================== -->
+
+                            <tr
+                                data-group="O+"
+                                data-bank="Bhaktapur Blood Bank"
+                                data-status="Good">
+
+
+                                <td>
+
+                                    <span class="blood-group">
+                                        O+
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <strong>
+                                        Bhaktapur Blood Bank
+                                    </strong>
+
+                                </td>
+
+
+                                <td>
+
+                                    <i class="bi bi-geo-alt text-danger"></i>
+
+                                    Bhaktapur
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="stock-wrapper">
+
+                                        <div class="stock-number">
+                                            50 Units
+                                        </div>
+
+                                        <div class="progress">
+
+                                            <div
+                                                class="progress-bar good"
+                                                style="width:100%">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="stock-status status-good">
+                                        Good
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+                                    Sep 12, 2026
+                                </td>
+
+
+                                <td>
+
+                                    <button
+                                        class="action-btn update-btn"
+                                        onclick="updateStock(this)">
+
+                                        <i class="bi bi-pencil"></i>
+
+                                    </button>
+
+
+                                    <button
+                                        class="action-btn delete-btn"
+                                        onclick="deleteStock(this)">
+
+                                        <i class="bi bi-trash"></i>
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- =================================================
+                                 O-
+                            ================================================== -->
+
+                            <tr
+                                data-group="O-"
+                                data-bank="Teaching Hospital Blood Bank"
+                                data-status="Low">
+
+
+                                <td>
+
+                                    <span class="blood-group">
+                                        O-
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <strong>
+                                        Teaching Hospital Blood Bank
+                                    </strong>
+
+                                </td>
+
+
+                                <td>
+
+                                    <i class="bi bi-geo-alt text-danger"></i>
+
+                                    Kathmandu
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="stock-wrapper">
+
+                                        <div class="stock-number">
+                                            10 Units
+                                        </div>
+
+                                        <div class="progress">
+
+                                            <div
+                                                class="progress-bar low"
+                                                style="width:20%">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="stock-status status-low">
+                                        Low
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+                                    Sep 12, 2026
+                                </td>
+
+
+                                <td>
+
+                                    <button
+                                        class="action-btn update-btn"
+                                        onclick="updateStock(this)">
+
+                                        <i class="bi bi-pencil"></i>
+
+                                    </button>
+
+
+                                    <button
+                                        class="action-btn delete-btn"
+                                        onclick="deleteStock(this)">
+
+                                        <i class="bi bi-trash"></i>
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- =================================================
+                                 AB-
+                            ================================================== -->
+
+                            <tr
+                                data-group="AB-"
+                                data-bank="Patan Hospital Blood Bank"
+                                data-status="Out of Stock">
+
+
+                                <td>
+
+                                    <span class="blood-group">
+                                        AB-
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <strong>
+                                        Patan Hospital Blood Bank
+                                    </strong>
+
+                                </td>
+
+
+                                <td>
+
+                                    <i class="bi bi-geo-alt text-danger"></i>
+
+                                    Lalitpur
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="stock-wrapper">
+
+                                        <div class="stock-number">
+                                            0 Units
+                                        </div>
+
+                                        <div class="progress">
+
+                                            <div
+                                                class="progress-bar"
+                                                style="width:0%">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="stock-status status-out">
+                                        Out of Stock
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+                                    Sep 12, 2026
+                                </td>
+
+
+                                <td>
+
+                                    <button
+                                        class="action-btn update-btn"
+                                        onclick="updateStock(this)">
+
+                                        <i class="bi bi-pencil"></i>
+
+                                    </button>
+
+
+                                    <button
+                                        class="action-btn delete-btn"
+                                        onclick="deleteStock(this)">
+
+                                        <i class="bi bi-trash"></i>
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         ADD / UPDATE STOCK MODAL
+    ====================================================== -->
+
+    <div
+        class="modal fade"
+        id="stockModal"
+        tabindex="-1"
+        aria-hidden="true">
+
+
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+
+
+            <div class="modal-content">
+
+
+                <div class="modal-header">
+
+
+                    <h5 class="modal-title">
+
+                        <i class="bi bi-droplet-fill me-2"></i>
+
+                        Add Blood Stock
+
+                    </h5>
+
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                    </button>
+
+
+                </div>
+
+
+                <form id="stockForm">
+
+
+                    <div class="modal-body">
+
+
+                        <div class="row g-3">
+
+
+                            <!-- BLOOD BANK -->
+
+                            <div class="col-md-6">
+
+
+                                <label class="form-label">
+                                    Blood Bank
+                                </label>
+
+
+                                <select
+                                    class="form-select"
+                                    id="stockBank"
+                                    required>
+
+
+                                    <option value="">
+                                        Select Blood Bank
+                                    </option>
+
+
+                                    <option>
+                                        Nepal Red Cross Society Blood Bank
+                                    </option>
+
+
+                                    <option>
+                                        Kathmandu Medical College Blood Bank
+                                    </option>
+
+
+                                    <option>
+                                        Teaching Hospital Blood Bank
+                                    </option>
+
+
+                                    <option>
+                                        Patan Hospital Blood Bank
+                                    </option>
+
+
+                                    <option>
+                                        Bhaktapur Blood Bank
+                                    </option>
+
+
+                                    <option>
+                                        Nepal Police Hospital Blood Bank
+                                    </option>
+
+
+                                </select>
+
+
+                            </div>
+
+
+                            <!-- BLOOD GROUP -->
+
+                            <div class="col-md-6">
+
+
+                                <label class="form-label">
+                                    Blood Group
+                                </label>
+
+
+                                <select
+                                    class="form-select"
+                                    id="stockGroup"
+                                    required>
+
+
+                                    <option value="">
+                                        Select Blood Group
+                                    </option>
+
+
+                                    <option>A+</option>
+
+                                    <option>A-</option>
+
+                                    <option>B+</option>
+
+                                    <option>B-</option>
+
+                                    <option>AB+</option>
+
+                                    <option>AB-</option>
+
+                                    <option>O+</option>
+
+                                    <option>O-</option>
+
+
+                                </select>
+
+
+                            </div>
+
+
+                            <!-- UNITS -->
+
+                            <div class="col-md-6">
+
+
+                                <label class="form-label">
+                                    Available Units
+                                </label>
+
+
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    id="stockUnits"
+                                    min="0"
+                                    placeholder="Enter number of units"
+                                    required>
+
+
+                            </div>
+
+
+                            <!-- EXPIRY DATE -->
+
+                            <div class="col-md-6">
+
+
+                                <label class="form-label">
+                                    Expiry Date
+                                </label>
+
+
+                                <input
+                                    type="date"
+                                    class="form-control"
+                                    id="expiryDate"
+                                    required>
+
+
+                            </div>
+
+
+                            <!-- STATUS -->
+
+                            <div class="col-md-6">
+
+
+                                <label class="form-label">
+                                    Stock Status
+                                </label>
+
+
+                                <select
+                                    class="form-select"
+                                    id="stockStatus">
+
+
+                                    <option value="Good">
+                                        Good
+                                    </option>
+
+
+                                    <option value="Medium">
+                                        Medium
+                                    </option>
+
+
+                                    <option value="Low">
+                                        Low
+                                    </option>
+
+
+                                    <option value="Out of Stock">
+                                        Out of Stock
+                                    </option>
+
+
+                                </select>
+
+
+                            </div>
+
+
+                            <!-- LAST UPDATED -->
+
+                            <div class="col-md-6">
+
+
+                                <label class="form-label">
+                                    Last Updated
+                                </label>
+
+
+                                <input
+                                    type="date"
+                                    class="form-control"
+                                    id="updatedDate"
+                                    required>
+
+
+                            </div>
+
+
+                            <!-- NOTE -->
+
+                            <div class="col-12">
+
+
+                                <label class="form-label">
+                                    Note
+                                </label>
+
+
+                                <textarea
+                                    class="form-control"
+                                    id="stockNote"
+                                    rows="3"
+                                    placeholder="Enter additional information">
+                                </textarea>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="modal-footer">
+
+
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+
+                            Cancel
+
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-danger">
+
+                            <i class="bi bi-save me-1"></i>
+
+                            Save Blood Stock
+
+                        </button>
+
+
+                    </div>
+
+
+                </form>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         BOOTSTRAP JS
+    ====================================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+
+
+        /* =====================================================
+           MOBILE SIDEBAR
+        ====================================================== */
+
+        const menuBtn =
+            document.getElementById("menuBtn");
+
+        const sidebar =
+            document.getElementById("sidebar");
+
+        const sidebarOverlay =
+            document.getElementById("sidebarOverlay");
+
+
+        menuBtn.addEventListener("click", function () {
+
+            sidebar.classList.toggle("show");
+
+            sidebarOverlay.classList.toggle("show");
+
+        });
+
+
+        sidebarOverlay.addEventListener("click", function () {
+
+            sidebar.classList.remove("show");
+
+            sidebarOverlay.classList.remove("show");
+
+        });
+
+
+        /* =====================================================
+           OPEN STOCK MODAL
+        ====================================================== */
+
+        function openStockModal() {
+
+            document.getElementById("stockForm").reset();
+
+            const modal =
+                new bootstrap.Modal(
+                    document.getElementById("stockModal")
+                );
+
+            modal.show();
+
+        }
+
+
+        /* =====================================================
+           FILTER STOCK
+        ====================================================== */
+
+        function filterStock() {
+
+
+            const search =
+                document
+                .getElementById("searchInput")
+                .value
+                .toLowerCase();
+
+
+            const group =
+                document
+                .getElementById("bloodFilter")
+                .value;
+
+
+            const status =
+                document
+                .getElementById("statusFilter")
+                .value;
+
+
+            const rows =
+                document.querySelectorAll(
+                    "#stockTableBody tr"
+                );
+
+
+            let visibleCount = 0;
+
+
+            rows.forEach(function(row) {
+
+
+                const rowGroup =
+                    row.dataset.group;
+
+
+                const rowBank =
+                    row.dataset.bank.toLowerCase();
+
+
+                const rowStatus =
+                    row.dataset.status;
+
+
+                const searchMatch =
+                    rowGroup
+                    .toLowerCase()
+                    .includes(search) ||
+
+                    rowBank
+                    .includes(search);
+
+
+                const groupMatch =
+                    group === "all" ||
+                    rowGroup === group;
+
+
+                const statusMatch =
+                    status === "all" ||
+                    rowStatus === status;
+
+
+                if (
+                    searchMatch &&
+                    groupMatch &&
+                    statusMatch
+                ) {
+
+                    row.style.display = "";
+
+                    visibleCount++;
+
+                }
+                else {
+
+                    row.style.display = "none";
+
+                }
+
+            });
+
+
+            document
+                .getElementById("stockCount")
+                .textContent = visibleCount;
+
+        }
+
+
+        /* =====================================================
+           RESET FILTER
+        ====================================================== */
+
+        function resetFilters() {
+
+            document
+                .getElementById("searchInput")
+                .value = "";
+
+
+            document
+                .getElementById("bloodFilter")
+                .value = "all";
+
+
+            document
+                .getElementById("statusFilter")
+                .value = "all";
+
+
+            filterStock();
+
+        }
+
+
+        /* =====================================================
+           UPDATE STOCK
+        ====================================================== */
+
+        function updateStock(button) {
+
+
+            const row =
+                button.closest("tr");
+
+
+            const group =
+                row.dataset.group;
+
+
+            const bank =
+                row.dataset.bank;
+
+
+            const currentUnits =
+                row
+                .querySelector(".stock-number")
+                .textContent
+                .replace(" Units", "");
+
+
+            const newUnits =
+                prompt(
+                    "Enter new available units for " +
+                    group +
+                    " at " +
+                    bank +
+                    ":",
+                    currentUnits
+                );
+
+
+            if (
+                newUnits === null ||
+                newUnits.trim() === ""
+            ) {
+
+                return;
+
+            }
+
+
+            if (
+                isNaN(newUnits) ||
+                Number(newUnits) < 0
+            ) {
+
+                alert(
+                    "Please enter a valid number."
+                );
+
+                return;
+
+            }
+
+
+            const units =
+                Number(newUnits);
+
+
+            row
+                .querySelector(".stock-number")
+                .textContent =
+                units + " Units";
+
+
+            const progress =
+                row.querySelector(".progress-bar");
+
+
+            let percentage =
+                (units / 50) * 100;
+
+
+            if (percentage > 100) {
+                percentage = 100;
+            }
+
+
+            progress.style.width =
+                percentage + "%";
+
+
+            const statusElement =
+                row.querySelector(".stock-status");
+
+
+            let newStatus;
+
+
+            if (units === 0) {
+
+                newStatus = "Out of Stock";
+
+                statusElement.className =
+                    "stock-status status-out";
+
+                progress.className =
+                    "progress-bar";
+
+            }
+
+            else if (units <= 10) {
+
+                newStatus = "Low";
+
+                statusElement.className =
+                    "stock-status status-low";
+
+                progress.className =
+                    "progress-bar low";
+
+            }
+
+            else if (units <= 25) {
+
+                newStatus = "Medium";
+
+                statusElement.className =
+                    "stock-status status-medium";
+
+                progress.className =
+                    "progress-bar medium";
+
+            }
+
+            else {
+
+                newStatus = "Good";
+
+                statusElement.className =
+                    "stock-status status-good";
+
+                progress.className =
+                    "progress-bar good";
+
+            }
+
+
+            statusElement.textContent =
+                newStatus;
+
+
+            row.dataset.status =
+                newStatus;
+
+
+            updateTotalUnits();
+
+
+            filterStock();
+
+
+            alert(
+                "Blood stock updated successfully."
+            );
+
+        }
+
+
+        /* =====================================================
+           DELETE STOCK
+        ====================================================== */
+
+        function deleteStock(button) {
+
+
+            const row =
+                button.closest("tr");
+
+
+            const group =
+                row.dataset.group;
+
+
+            const bank =
+                row.dataset.bank;
+
+
+            const confirmDelete =
+                confirm(
+                    "Are you sure you want to delete " +
+                    group +
+                    " stock from " +
+                    bank +
+                    "?"
+                );
+
+
+            if (confirmDelete) {
+
+                row.remove();
+
+                updateTotalUnits();
+
+                filterStock();
+
+                alert(
+                    "Blood stock deleted successfully."
+                );
+
+            }
+
+        }
+
+
+        /* =====================================================
+           UPDATE TOTAL UNITS
+        ====================================================== */
+
+        function updateTotalUnits() {
+
+
+            const rows =
+                document.querySelectorAll(
+                    "#stockTableBody tr"
+                );
+
+
+            let total = 0;
+
+
+            rows.forEach(function(row) {
+
+
+                const unitsText =
+                    row
+                    .querySelector(".stock-number")
+                    .textContent;
+
+
+                const units =
+                    parseInt(unitsText);
+
+
+                if (!isNaN(units)) {
+
+                    total += units;
+
+                }
+
+            });
+
+
+            document
+                .getElementById("totalUnits")
+                .textContent = total;
+
+        }
+
+
+        /* =====================================================
+           ADD STOCK FORM
+        ====================================================== */
+
+        document
+            .getElementById("stockForm")
+            .addEventListener(
+                "submit",
+                function(event) {
+
+
+                    event.preventDefault();
+
+
+                    const bank =
+                        document
+                        .getElementById("stockBank")
+                        .value;
+
+
+                    const group =
+                        document
+                        .getElementById("stockGroup")
+                        .value;
+
+
+                    const units =
+                        Number(
+                            document
+                            .getElementById("stockUnits")
+                            .value
+                        );
+
+
+                    const status =
+                        document
+                        .getElementById("stockStatus")
+                        .value;
+
+
+                    const updatedDate =
+                        document
+                        .getElementById("updatedDate")
+                        .value;
+
+
+                    if (
+                        bank === "" ||
+                        group === "" ||
+                        isNaN(units)
+                    ) {
+
+                        alert(
+                            "Please fill all required fields."
+                        );
+
+                        return;
+
+                    }
+
+
+                    let location =
+                        "Kathmandu";
+
+
+                    if (
+                        bank.includes("Patan")
+                    ) {
+
+                        location =
+                            "Lalitpur";
+
+                    }
+
+
+                    if (
+                        bank.includes("Bhaktapur")
+                    ) {
+
+                        location =
+                            "Bhaktapur";
+
+                    }
+
+
+                    let progressWidth =
+                        (units / 50) * 100;
+
+
+                    if (
+                        progressWidth > 100
+                    ) {
+
+                        progressWidth = 100;
+
+                    }
+
+
+                    let statusClass =
+                        "status-good";
+
+
+                    let progressClass =
+                        "good";
+
+
+                    if (status === "Low") {
+
+                        statusClass =
+                            "status-low";
+
+                        progressClass =
+                            "low";
+
+                    }
+
+                    else if (status === "Medium") {
+
+                        statusClass =
+                            "status-medium";
+
+                        progressClass =
+                            "medium";
+
+                    }
+
+                    else if (
+                        status === "Out of Stock"
+                    ) {
+
+                        statusClass =
+                            "status-out";
+
+                        progressClass =
+                            "";
+
+                    }
+
+
+                    const tableBody =
+                        document
+                        .getElementById(
+                            "stockTableBody"
+                        );
+
+
+                    const newRow =
+                        document.createElement("tr");
+
+
+                    newRow.dataset.group =
+                        group;
+
+
+                    newRow.dataset.bank =
+                        bank;
+
+
+                    newRow.dataset.status =
+                        status;
+
+
+                    newRow.innerHTML = `
+
+                        <td>
+
+                            <span class="blood-group">
+                                ${group}
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+                                ${bank}
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            <i class="bi bi-geo-alt text-danger"></i>
+
+                            ${location}
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="stock-wrapper">
+
+                                <div class="stock-number">
+                                    ${units} Units
+                                </div>
+
+                                <div class="progress">
+
+                                    <div
+                                        class="progress-bar ${progressClass}"
+                                        style="width:${progressWidth}%">
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <span
+                                class="stock-status ${statusClass}">
+
+                                ${status}
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+                            ${updatedDate}
+                        </td>
+
+
+                        <td>
+
+                            <button
+                                class="action-btn update-btn"
+                                onclick="updateStock(this)">
+
+                                <i class="bi bi-pencil"></i>
+
+                            </button>
+
+
+                            <button
+                                class="action-btn delete-btn"
+                                onclick="deleteStock(this)">
+
+                                <i class="bi bi-trash"></i>
+
+                            </button>
+
+                        </td>
+
+                    `;
+
+
+                    tableBody.appendChild(newRow);
+
+
+                    updateTotalUnits();
+
+
+                    filterStock();
+
+
+                    document
+                        .getElementById("stockForm")
+                        .reset();
+
+
+                    const modal =
+                        bootstrap.Modal.getInstance(
+                            document.getElementById(
+                                "stockModal"
+                            )
+                        );
+
+
+                    modal.hide();
+
+
+                    alert(
+                        "Blood stock added successfully."
+                    );
+
+                }
+            );
+
+
+        /* =====================================================
+           LOGOUT
+        ====================================================== */
+
+        function logoutAdmin() {
+
+
+            const confirmLogout =
+                confirm(
+                    "Are you sure you want to logout?"
+                );
+
+
+            if (confirmLogout) {
+
+
+                localStorage.removeItem(
+                    "adminLoggedIn"
+                );
+
+
+                sessionStorage.removeItem(
+                    "adminLoggedIn"
+                );
+
+
+                window.location.href =
+                    "admin-login.html";
+
+            }
+
+        }
+
+
+        /* =====================================================
+           INITIAL LOAD
+        ====================================================== */
+
+        filterStock();
+
+    </script>
+
+
+</body>
+
+</html>
